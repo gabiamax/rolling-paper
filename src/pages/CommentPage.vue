@@ -1,7 +1,9 @@
 <template>
-  <main class="comment-wrapper">
-    <Introduction :id="2" />
-    <Comment :id="3" />
+  <main class="comment">
+    <div class="comment-wrapper">
+      <Introduction :id="2" />
+      <Comment :id="3" />
+    </div>
   </main>
 </template>
 
@@ -18,14 +20,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.comment-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 769px;
-  height: 100vh;
-  margin: 0 auto;
-  padding: 43px 48px 38px 48px;
-  background: #f2f3f5;
+.comment {
+  background: url('../assets/images/background.JPG');
+  background-size: contain;
+
+  .comment-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 769px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 43px 48px 38px 48px;
+    background: #f2f3f5;
+  }
 }
 </style>
