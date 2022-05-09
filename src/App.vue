@@ -1,17 +1,13 @@
 <template>
   <div id="app">
-    <HelloWorld msg="뷰뿌셔" />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
-  },
+  components: {},
 };
 </script>
 
