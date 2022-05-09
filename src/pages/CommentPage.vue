@@ -1,33 +1,31 @@
 <template>
   <main class="comment-wrapper">
-    <div class="comment">
-      <Introduction />
-    </div>
+    <Introduction :id="2" />
+    <Comment :id="3" />
   </main>
 </template>
 
 <script>
 import Introduction from '@/components/Introduction.vue';
+import Comment from '@/components/Comment.vue';
 
 export default {
   components: {
     Introduction,
+    Comment,
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .comment-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 769px;
   height: 100vh;
-  .comment {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 769px;
-    height: 100%;
-    margin: 0 auto;
-    padding: 43px 48px 38px 48px;
-    background: #f2f3f5;
-  }
+  margin: 0 auto;
+  padding: 43px 48px 38px 48px;
+  background: #f2f3f5;
 }
 </style>
