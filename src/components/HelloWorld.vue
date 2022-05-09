@@ -8,16 +8,19 @@
 export default {
   name: 'HelloWorld',
   props: {
-    msg: String
-  }
-}
+    msg: {
+      type: String,
+      required: true,
+      default: '',
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-$bgColor:#8d5454;
+$bgColor: #8d5454;
 h1 {
   background: $bgColor;
 }
-
 </style>
