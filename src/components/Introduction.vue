@@ -1,18 +1,49 @@
 <template>
   <div class="introduction">
-    <img src="@/assets/images/gijin.png" alt="아바타 이미지" />
-    <div class="name">{{ name }}</div>
-    <div class="description">{{ description }}</div>
+    <img :src="avatarImg" :alt="avatars.name" />
+    <div class="name">{{ avatars.name }}</div>
+    <div class="description">{{ avatars.description }}</div>
   </div>
 </template>
 
 <script>
+import defaultImage from '@/assets/images/gijin.png';
+import { getComment } from '../api/comment';
+import { getAvatar } from '../api/avatar';
+
 export default {
   data() {
     return {
-      name: '위니',
-      description: '안녕하세요 프론트엔드개발팀 신입사원 위니입니다.',
+      avatars: {},
+      comments: [],
+      defaultImage,
     };
+  },
+  computed: {
+    avatarImg: {
+      get() {
+        return this.avatars.img_src ?? defaultImage;
+      },
+    },
+  },
+  created() {
+    // TODO: Params로 내려온 id값 사용
+    this.fetchAvatar(2);
+    this.fetchComment();
+  },
+  methods: {
+    async fetchAvatar(id) {
+      const { data } = await getAvatar(id);
+      this.avatars = data.data.attributes;
+    },
+    async fetchComment() {
+      const { data } = await getComment();
+      // TODO: Params로 내려온 id값 사용
+      this.searchCommentById(2, data.data);
+    },
+    searchCommentById(id, datas) {
+      this.comments = datas.find((data) => data.id === id).attributes.comments.data;
+    },
   },
 };
 </script>
