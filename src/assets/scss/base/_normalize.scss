@@ -1,0 +1,17 @@
+/* 스크롤 모양 변경(IE 제외) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  width: 8px;
+  border-radius: 8px;
+  background: #e1e1e1;
+  &:hover {
+      background: #797979;
+  }
+}
+  
