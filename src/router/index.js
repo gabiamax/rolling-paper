@@ -7,13 +7,13 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('./pages/HomePage.vue'),
+    component: () => import('../pages/HomePage.vue'),
   },
-  { path: '/comment', nane: 'Comment', component: () => import('./pages/CommentPage.vue') },
+  { path: '/comment', name: 'Comment', component: () => import('../pages/CommentPage.vue') },
   {
     path: '*',
     name: 'NotFound',
-    component: () => import('./pages/NotFoundPage.vue'),
+    component: () => import('../pages/NotFoundPage.vue'),
   },
 ];
 
