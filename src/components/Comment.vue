@@ -17,16 +17,16 @@ export default {
       comments: [],
     };
   },
-  created() {
-    this.fetchComment(this.id);
+  async created() {
+    this.comments = await this.fetchComment(this.id);
   },
   methods: {
     async fetchComment(id) {
       const { data } = await getComment();
-      this.searchCommentById(id, data.data);
+      return this.searchCommentById(id, data.data);
     },
     searchCommentById(id, datas) {
-      this.comments = datas.find((data) => data.id === id).attributes.comments.data;
+      return datas.find((data) => data.id === id).attributes.comments.data;
     },
   },
 };

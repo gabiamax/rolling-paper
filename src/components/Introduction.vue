@@ -1,6 +1,6 @@
 <template>
   <div class="introduction">
-    <img :src="avatarImg" :alt="avatars.name" />
+    <img class="avatar" :src="avatarImg" :alt="avatars.name" />
     <div class="name">{{ avatars.name || '로딩중' }}</div>
     <div class="description">{{ avatars.description || '로딩중' }}</div>
   </div>
@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .introduction {
-  img {
+  .avatar {
     display: block;
     margin: 0px auto;
   }
