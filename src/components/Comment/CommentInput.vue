@@ -1,5 +1,5 @@
 <template>
-  <form class="comment__form" @submit="checkCommentForm">
+  <form class="comment__form" @submit.prevent="checkCommentForm">
     <div class="comment__container--author">
       <label for="author-input" class="comment__input--author">
         <input
@@ -50,9 +50,8 @@ export default {
     focusInput() {
       this.$refs.author.focus();
     },
-    checkCommentForm(e) {
+    checkCommentForm() {
       const { author, content } = this.value;
-      e.preventDefault();
       if (author.trim() && content.trim()) {
         this.$emit('submit');
       }

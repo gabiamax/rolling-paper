@@ -1,71 +1,86 @@
 <template>
-  <div>
-    <div>코멘트</div>
-    <CommentInput v-model="comment" @submit="addCommentItem" />
-    <CommentItem
-      v-for="commentItem in commentItems"
-      :key="commentItem.id"
-      :commentItem="commentItem"
-      @delete="deleteCommentItem(commentItem.id)"
-    />
-  </div>
+  <main class="comment">
+    <div class="comment-wrapper">
+      <Introduction :avatar="avatar" />
+      <CommentInput v-model="comment" @submit="addCommentItem" />
+      <CommentItem
+        v-for="commentItem in comments"
+        :key="commentItem.id"
+        :commentItem="commentItem"
+        @delete="deleteCommentItem(commentItem.id)"
+      />
+    </div>
+  </main>
 </template>
-
 <script>
 import CommentInput from '@/components/Comment/CommentInput.vue';
 import CommentItem from '@/components/Comment/CommentItem.vue';
-
-const MOCK = [
-  {
-    id: 2,
-    attributes: {
-      content: '화이팅하세요~',
-      author: '익명',
-    },
-  },
-  {
-    id: 3,
-    attributes: {
-      content: '오 민석씨 만나서 반가워요. 화이팅 하세요.',
-      author: '익명익명익명익명익명익명',
-    },
-  },
-  {
-    id: 4,
-    attributes: {
-      content:
-        '항상 건강하세요~ 엄청나게 긴 글을 입력하면 어떻게 될까요 긴글긴글항상 건강하세요~ 엄청나게 긴 글을 입력하면 어떻게 될까요 긴글긴글항상 건강하세요~ 엄청나게 긴 글을 입력하면 어떻게 될까요 긴글긴글항상 건강하세요~ 엄청나게 긴 글을 입력하면 어떻게 될까요 긴글긴글',
-      author: '익명의 돼지',
-    },
-  },
-];
+import { getAvatar, getCertainAvatarInfo } from '@/api/avatar';
+import Introduction from '@/components/Introduction.vue';
 
 export default {
-  components: { CommentInput, CommentItem },
+  components: { Introduction, CommentInput, CommentItem },
   data() {
     return {
-      commentItems: MOCK,
+      comments: [],
       comment: {
         author: '',
         content: '',
+        id: this.id,
       },
+      avatar: {},
+      id: '',
     };
+  },
+  async created() {
+    const { id } = this.$route.params;
+    this.id = Number(id);
+    this.avatar = await this.fetchAvatar(this.id);
+    this.comments = await this.fetchAllInfo(this.id);
   },
   methods: {
     addCommentItem() {
-      this.commentItems.push({ id: 5, attributes: this.comment });
+      // TODO : API 연결 필요
+      this.comments.push({ id: 5, attributes: this.comment });
       this.initCommentItem();
     },
     deleteCommentItem(commentId) {
-      this.commentItems = this.commentItems.filter(({ id }) => id !== commentId);
+      this.comments = this.comments.filter(({ id }) => id !== commentId);
     },
     initCommentItem() {
-      this.comment = { author: '', content: '' };
+      this.comment = { ...this.comment, author: '', content: '' };
       // this.comment.author = '';
       // this.comment.content = '';
     },
+    async fetchAllInfo(id) {
+      const { data } = await getCertainAvatarInfo(id);
+      const commentInfo = data.data.attributes.comments.data;
+      return commentInfo;
+    },
+    async fetchAvatar(id) {
+      const { data } = await getAvatar(id);
+      return data.data.attributes;
+    },
+    // searchCommentById(id, datas) {
+    //   return datas.find((data) => data.id === id).attributes.comments.data;
+    // },
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.comment {
+  background: url('../assets/images/background.JPG');
+  background-size: contain;
+  .comment-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 769px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 43px 48px 38px 48px;
+    background: #f2f3f5;
+  }
+}
+</style>
