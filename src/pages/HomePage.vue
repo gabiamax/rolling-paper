@@ -1,17 +1,18 @@
 <template>
   <div>
-    <Header />
+    <!-- HEADER 넣기 -->
+    <!-- <Header /> -->
     <AvatarsList :avatars="avatars" />
   </div>
 </template>
 
 <script>
 import AvatarsList from '@/components/AvatarsList.vue';
-import Header from '@/components/Header.vue';
+// import Header from '@/components/Header.vue';
 // import { getAvatars } from '@/api/avatar';
 
 export default {
-  components: { AvatarsList, Header },
+  components: { AvatarsList },
   data() {
     return {
       avatars: [],
