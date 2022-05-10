@@ -1,7 +1,8 @@
 <template>
   <li class="comment__item">
-    <div class="comment__item--author">{{ commentItem.author }}</div>
-    <div class="comment__item--content">{{ commentItem.content }}</div>
+    <div class="comment__item--author">{{ commentItem.attributes.author }}</div>
+    <div class="comment__item--content">{{ commentItem.attributes.content }}</div>
+    <button class="comment__item--delete" @click="deleteComment">삭제</button>
   </li>
 </template>
 
@@ -11,6 +12,11 @@ export default {
     commentItem: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  methods: {
+    deleteComment() {
+      this.$emit('delete');
     },
   },
 };

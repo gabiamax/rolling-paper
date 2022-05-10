@@ -1,16 +1,10 @@
 <template>
   <div class="comment__input">
     <label for="author-input" class="comment__input--author">
-      <input id="author-input" ref="author" :comment="comment.author" placeholder="작성자" @input="handleInput" />
+      <input id="author-input" v-model="author" placeholder="작성자" />
     </label>
     <label for="content-input" class="comment__input--content">
-      <input
-        id="content-input"
-        ref="content"
-        :comment="comment.content"
-        placeholder="댓글을 입력해주세요."
-        @input="handleInput"
-      />
+      <input id="content-input" v-model="content" placeholder="댓글을 입력해주세요." />
     </label>
     <button type="button" class="comment__button--add" @click="addComment">등록</button>
   </div>
@@ -18,21 +12,20 @@
 
 <script>
 export default {
-  props: {
-    comment: {
-      type: Object,
-      default: () => ({}),
-    },
+  data() {
+    return {
+      author: '',
+      content: '',
+    };
   },
   methods: {
-    handleInput() {
-      this.$emit('input', {
-        author: this.$refs.author.value,
-        content: this.$refs.content.value,
-      });
-    },
     addComment() {
-      this.$emit('add');
+      this.$emit('add', { author: this.author, content: this.content });
+      this.initComment();
+    },
+    initComment() {
+      this.author = '';
+      this.content = '';
     },
   },
 };
