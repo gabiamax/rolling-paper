@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import defaultImage from '@/assets/images/avatar_tmp.png';
+import defaultImage from '@/assets/images/man.png';
 
 export default {
   name: 'AvatarsList',
