@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>코멘트</div>
-    <CommentInput @add="addCommentItem" />
+    <CommentInput v-model="comment" @submit="addCommentItem" />
     <CommentItem
       v-for="commentItem in commentItems"
       :key="commentItem.id"
@@ -45,14 +45,24 @@ export default {
   data() {
     return {
       commentItems: MOCK,
+      comment: {
+        author: '',
+        content: '',
+      },
     };
   },
   methods: {
-    addCommentItem(comment) {
-      this.commentItems.push({ id: 5, attributes: comment });
+    addCommentItem() {
+      this.commentItems.push({ id: 5, attributes: this.comment });
+      this.initCommentItem();
     },
     deleteCommentItem(commentId) {
       this.commentItems = this.commentItems.filter(({ id }) => id !== commentId);
+    },
+    initCommentItem() {
+      this.comment = { author: '', content: '' };
+      // this.comment.author = '';
+      // this.comment.content = '';
     },
   },
 };
