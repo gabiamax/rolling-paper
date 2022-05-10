@@ -1,4 +1,4 @@
-import gaxios from '@/api/config/instance';
+import gaxios from '@/api/config/axios';
 
 const AVATAR_URL = '/avatars';
 
