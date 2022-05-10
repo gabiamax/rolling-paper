@@ -2,67 +2,76 @@
   <main class="comment">
     <div class="comment-wrapper">
       <Introduction :avatar="avatar" />
-      <Comment v-for="(comment, index) in comments" :key="index" :comment="comment" />
+      <CommentInput v-model="comment" @submit="addCommentItem" />
+      <CommentItem
+        v-for="commentItem in comments"
+        :key="commentItem.id"
+        :commentItem="commentItem"
+        @delete="deleteCommentItem(commentItem.id)"
+      />
     </div>
   </main>
 </template>
 <script>
-import { getComments } from '@/api/comment';
-import { getAvatar } from '@/api/avatar';
-import Comment from '@/components/Comment.vue';
+import CommentInput from '@/components/Comment/CommentInput.vue';
+import CommentItem from '@/components/Comment/CommentItem.vue';
+import { getAvatar, getCertainAvatarInfo } from '@/api/avatar';
 import Introduction from '@/components/Introduction.vue';
 
 export default {
-  components: {
-    Introduction,
-    Comment,
-  },
+  components: { Introduction, CommentInput, CommentItem },
   data() {
     return {
-      id: '',
       comments: [],
+      comment: {
+        author: '',
+        content: '',
+        id: this.id,
+      },
       avatar: {},
+      id: '',
     };
   },
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
     this.avatar = await this.fetchAvatar(this.id);
-    // this.comments = await this.fetchComments(this.id);
-    // TODO: API Response 있으면 삭제
-    this.comments = [
-      {
-        content: '댓글1',
-        createdAt: '2022-05-04T16:49:47.844Z',
-        author: null,
-      },
-      {
-        content: '댓글2',
-        createdAt: '2022-05-04T16:49:47.844Z',
-        author: null,
-      },
-    ];
+    this.comments = await this.fetchAllInfo(this.id);
   },
   methods: {
-    async fetchComments(id) {
-      const { data } = await getComments();
-      return this.searchCommentById(id, data.data);
+    addCommentItem() {
+      // TODO : API 연결 필요
+      this.comments.push({ id: 5, attributes: this.comment });
+      this.initCommentItem();
+    },
+    deleteCommentItem(commentId) {
+      this.comments = this.comments.filter(({ id }) => id !== commentId);
+    },
+    initCommentItem() {
+      this.comment = { ...this.comment, author: '', content: '' };
+      // this.comment.author = '';
+      // this.comment.content = '';
+    },
+    async fetchAllInfo(id) {
+      const { data } = await getCertainAvatarInfo(id);
+      const commentInfo = data.data.attributes.comments.data;
+      return commentInfo;
     },
     async fetchAvatar(id) {
       const { data } = await getAvatar(id);
       return data.data.attributes;
     },
-    searchCommentById(id, datas) {
-      return datas.find((data) => data.id === id).attributes.comments.data;
-    },
+    // searchCommentById(id, datas) {
+    //   return datas.find((data) => data.id === id).attributes.comments.data;
+    // },
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .comment {
   background: url('../assets/images/background.JPG');
   background-size: contain;
-
   .comment-wrapper {
     display: flex;
     flex-direction: column;
