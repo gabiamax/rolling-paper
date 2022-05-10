@@ -9,7 +9,11 @@ const routes = [
     name: 'Home',
     component: () => import('../pages/HomePage.vue'),
   },
-  { path: '/comment', name: 'Comment', component: () => import('../pages/CommentPage.vue') },
+  {
+    path: '/comment/:id',
+    name: 'Comment',
+    component: () => import('../pages/CommentPage.vue'),
+  },
   {
     path: '*',
     name: 'NotFound',

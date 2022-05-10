@@ -1,24 +1,63 @@
 <template>
   <main class="comment">
     <div class="comment-wrapper">
-      <Introduction :id="2" />
-      <Comment :id="3" />
+      <Introduction :avatar="avatar" />
+      <Comment v-for="(comment, index) in comments" :key="index" :comment="comment" />
     </div>
   </main>
 </template>
-
 <script>
-import Introduction from '@/components/Introduction.vue';
+import { getComments } from '@/api/comment';
+import { getAvatar } from '@/api/avatar';
 import Comment from '@/components/Comment.vue';
+import Introduction from '@/components/Introduction.vue';
 
 export default {
   components: {
     Introduction,
     Comment,
   },
+  data() {
+    return {
+      id: '',
+      comments: [],
+      avatar: {},
+    };
+  },
+  async created() {
+    const { id } = this.$route.params;
+    this.id = Number(id);
+    this.avatar = await this.fetchAvatar(this.id);
+    // this.comments = await this.fetchComments(this.id);
+    // TODO: API Response 있으면 삭제
+    this.comments = [
+      {
+        content: '댓글1',
+        createdAt: '2022-05-04T16:49:47.844Z',
+        author: null,
+      },
+      {
+        content: '댓글2',
+        createdAt: '2022-05-04T16:49:47.844Z',
+        author: null,
+      },
+    ];
+  },
+  methods: {
+    async fetchComments(id) {
+      const { data } = await getComments();
+      return this.searchCommentById(id, data.data);
+    },
+    async fetchAvatar(id) {
+      const { data } = await getAvatar(id);
+      return data.data.attributes;
+    },
+    searchCommentById(id, datas) {
+      return datas.find((data) => data.id === id).attributes.comments.data;
+    },
+  },
 };
 </script>
-
 <style lang="scss" scoped>
 .comment {
   background: url('../assets/images/background.JPG');

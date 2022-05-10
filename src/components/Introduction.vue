@@ -1,42 +1,31 @@
 <template>
   <div class="introduction">
-    <img class="avatar" :src="avatarImg" :alt="avatars.name" />
-    <div class="name">{{ avatars.name || '로딩중' }}</div>
-    <div class="description">{{ avatars.description || '로딩중' }}</div>
+    <img class="avatar" :src="avatarImg" :alt="avatar.name" />
+    <div class="name">{{ avatar.name || '로딩중' }}</div>
+    <div class="description">{{ avatar.description || '로딩중' }}</div>
   </div>
 </template>
 
 <script>
 import defaultImage from '@/assets/images/women.png';
-import { getAvatar } from '../api/avatar';
 
 export default {
   props: {
-    id: {
-      type: Number,
+    avatar: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {
-      avatars: {},
       defaultImage,
     };
   },
   computed: {
     avatarImg: {
       get() {
-        return this.avatars.img_src ?? defaultImage;
+        return this.avatar.img_src ?? defaultImage;
       },
-    },
-  },
-  created() {
-    this.fetchAvatar(this.id);
-  },
-  methods: {
-    async fetchAvatar(id) {
-      const { data } = await getAvatar(id);
-      this.avatars = data.data.attributes;
     },
   },
 };
