@@ -31,6 +31,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
+    'vue/multi-word-component-names': 'off',
     'prettier/prettier': [
       'error',
       {
