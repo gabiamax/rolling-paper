@@ -13,3 +13,7 @@ export const getAvatars = () =>
 export const getAvatar = (id) => {
   return gaxios.get(`/avatars/${id}`);
 };
+
+export const getCertainAvatarInfo = (id) => {
+  return gaxios.get(`/avatars/${id}?populate=comments`);
+};

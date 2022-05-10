@@ -21,6 +21,7 @@ module.exports = {
     'no-alert': 'off',
     'vue/no-v-html': 'off',
     'vue/attribute-hyphenation': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/require-name-property': 'off',
     'import/no-cycle': 'off',
     'no-use-before-define': 'off',
