@@ -60,9 +60,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .comment {
-  background: url('../assets/images/background.JPG');
-  background-size: contain;
-
   .comment-wrapper {
     display: flex;
     flex-direction: column;

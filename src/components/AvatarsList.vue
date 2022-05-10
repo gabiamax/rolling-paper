@@ -1,5 +1,5 @@
 <template>
-  <div class="avatars-wrapper">
+  <main class="avatars-wrapper">
     <ul class="avatars-list">
       <!-- :style="top: x, top:y" -->
       <!-- 값을 바인딩할 때 스트링과 섞어쓰려면 어떻게 해야하나? -->
@@ -10,7 +10,7 @@
       </li>
       <!-- <img src="@/assets/images/avatar_tmp.png" alt="q" /> -->
     </ul>
-  </div>
+  </main>
 </template>
 
 <script>
