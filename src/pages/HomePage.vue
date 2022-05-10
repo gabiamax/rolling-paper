@@ -1,23 +1,25 @@
 <template>
   <div>
-    <div>홈</div>
+    <Header />
     <AvatarsList :avatars="avatars" />
   </div>
 </template>
 
 <script>
 import AvatarsList from '@/components/AvatarsList.vue';
+import Header from '@/components/Header.vue';
 // import { getAvatars } from '@/api/avatar';
 
 export default {
-  components: { AvatarsList },
+  components: { AvatarsList, Header },
   data() {
     return {
       avatars: [],
     };
   },
   async created() {
-    this.avatars = await this.fetchAvatars(); // Promise.all
+    //! px 가공하여 넣기!
+    this.avatars = await this.fetchAvatars();
   },
   methods: {
     async fetchAvatars() {
@@ -35,6 +37,7 @@ export default {
             img_src: null,
           },
           positions: {
+            //! 데이터는 Number
             top: '50px',
             left: '80px',
           },

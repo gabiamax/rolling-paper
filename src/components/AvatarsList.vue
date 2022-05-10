@@ -2,13 +2,12 @@
   <main class="avatars-wrapper">
     <ul class="avatars-list">
       <!-- :style="top: x, top:y" -->
-      <!-- 값을 바인딩할 때 스트링과 섞어쓰려면 어떻게 해야하나? -->
       <li v-for="{ id, attributes: { name, img_src }, positions } in avatars" :id="id" :key="id" :style="positions">
-        {{ img_src }}
-        <img :src="img_src || defaultImage" :alt="name" :title="name" />
-        <div class="avatar-name">{{ name }}</div>
+        <router-link :to="'/comment/' + id">
+          <img :src="img_src || defaultImage" :alt="name" :title="name" />
+          <div class="avatar-name">{{ name }}</div>
+        </router-link>
       </li>
-      <!-- <img src="@/assets/images/avatar_tmp.png" alt="q" /> -->
     </ul>
   </main>
 </template>
@@ -29,14 +28,14 @@ export default {
     // return {
     return {
       defaultImage,
-      // img_src_default: 'https://www.avatarsinpixels.com/minipix/5/16521605141676/avatar.png',
     };
   },
   methods: {},
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+//! BEM으로 스타일 정리하기
 /* 기본 스타일이지만 필수적이라 추가 */
 ul {
   padding: 0;
@@ -52,10 +51,12 @@ li {
   display: flex;
   justify-content: center;
   overflow: hidden;
+  margin-top: 100px;
 }
 
 .avatars-list {
-  background-image: url('@/assets/images/background.JPG');
+  /* background-image: url('@/assets/images/background.JPG'); */
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-size: cover;
   width: 1000px;
   height: 700px;
@@ -64,16 +65,21 @@ li {
 
 .avatars-list li {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .avatar-name {
-  background-color: #ffffff;
+  //! Hover시 투명도 없애기
+  // background-color: #ffffff;
+  background-color: #ffffffa5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   padding: 6px;
   margin-top: 10px;
+  text-align: center;
 }
 </style>
