@@ -36,5 +36,14 @@ export default {
     font-weight: 600;
     margin: 0.8rem;
   }
+
+  &--delete {
+    color: white;
+    background-color: black;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 1rem;
+    width: 50px;
+  }
 }
 </style>
