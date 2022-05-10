@@ -9,8 +9,11 @@
 export default {
   name: 'AvatarsCanvas',
   props: {
-    avatars: Array,
-    default: [],
+    avatars: {
+      type: Array,
+      default: () => [],
+      required: true,
+    },
   },
 };
 </script>
