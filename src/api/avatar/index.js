@@ -9,3 +9,7 @@ export const getAvatars = () =>
       return data.data;
     })
     .catch((err) => console.log(err));
+// AVATAR_URL 상수 사용
+export const getAvatar = (id) => {
+  return gaxios.get(`/avatars/${id}`);
+};
