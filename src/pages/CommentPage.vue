@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     addCommentItem(comment) {
-      this.commentItems.push(comment);
+      this.commentItems.push({ id: 5, attributes: comment });
     },
     deleteCommentItem(commentId) {
       this.commentItems = this.commentItems.filter(({ id }) => id !== commentId);
