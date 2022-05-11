@@ -1,7 +1,7 @@
 <template>
   <li class="comment__item">
-    <div class="comment__item--author">{{ commentItem.attributes.author }}</div>
-    <div class="comment__item--content">{{ commentItem.attributes.content }}</div>
+    <div class="comment__item--author">{{ comment.attributes.author }}</div>
+    <div class="comment__item--content">{{ comment.attributes.content }}</div>
     <button class="comment__item--delete" @click="deleteComment">삭제</button>
   </li>
 </template>
@@ -9,7 +9,7 @@
 <script>
 export default {
   props: {
-    commentItem: {
+    comment: {
       type: Object,
       default: () => ({}),
     },
