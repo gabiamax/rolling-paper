@@ -95,7 +95,7 @@ export default {
     width: 769px;
     height: 100vh;
     margin: 0 auto;
-    padding: 43px 48px 38px 48px;
+    padding: 40px 45px 38px 45px;
     background: white;
   }
 
@@ -104,6 +104,7 @@ export default {
     margin-top: 0.5rem;
     overflow-y: auto;
     height: 500px;
+    padding: 0 6px;
   }
 }
 </style>

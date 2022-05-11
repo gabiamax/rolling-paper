@@ -1,8 +1,10 @@
 <template>
   <div class="introduction">
     <img class="avatar" :src="avatarImg" :alt="avatar.name" />
-    <div class="name">{{ avatar.name || '로딩중' }}</div>
-    <div class="description">{{ avatar.description || '로딩중' }}</div>
+    <div class="wrapper">
+      <div class="name">{{ avatar.name || '로딩중' }}</div>
+      <div class="description">{{ avatar.description || '로딩중' }}</div>
+    </div>
   </div>
 </template>
 
@@ -33,20 +35,28 @@ export default {
 
 <style lang="scss" scoped>
 .introduction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+
   .avatar {
     display: block;
     margin: 0px auto;
+  }
+
+  .wrapper {
+    padding-bottom: 14px;
+    max-width: 80%;
+    min-width: 327px;
   }
   .name {
     margin-bottom: 7px;
   }
 
   .description {
-    display: flex;
-    align-items: center;
-    width: 327px;
-    height: 62px;
-    margin-bottom: 32px;
+    max-height: 100px;
+    overflow-y: auto;
     padding: 12px 31px;
     background: #ecf7ff;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

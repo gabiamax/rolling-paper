@@ -30,10 +30,12 @@ export default {
   display: flex;
   align-items: center;
   background-color: #f2f3f5;
+  padding: 1rem 1.25rem;
+  gap: 12px;
+
   &--author {
     min-width: 100px;
     font-weight: 600;
-    margin: 1rem;
   }
 
   &--content {
@@ -45,7 +47,6 @@ export default {
     background-color: black;
     border-radius: 6px;
     padding: 5px;
-    margin: 1rem;
     min-width: 50px;
   }
 }
