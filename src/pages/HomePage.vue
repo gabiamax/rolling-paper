@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- HEADER 넣기 -->
-    <!-- <Header /> -->
+    <Header />
     <AvatarsList :avatars="avatars" />
   </div>
 </template>
@@ -10,10 +10,10 @@
 import AvatarsList from '@/components/AvatarsList.vue';
 import { getAvatars } from '@/api/avatar';
 import { SIZE } from '@/utils/constants';
-// import Header from '@/components/Header.vue';
+import Header from '@/components/Header.vue';
 
 export default {
-  components: { AvatarsList },
+  components: { Header, AvatarsList },
   data() {
     return {
       avatars: [],
@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     async fetchAvatars() {
-      //! 목업 지울 때 활성화하기
       const avatars = await getAvatars();
       return avatars;
     },
