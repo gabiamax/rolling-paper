@@ -1,23 +1,10 @@
 import gaxios from '@/api/config/axios';
 
-const AVATAR_URL = '/avatars';
-
-export const getAvatars = () =>
-  gaxios
-    .get(AVATAR_URL)
-    .then(({ data }) => {
-      return data.data;
-    })
-    .catch((err) => console.log(err));
-// AVATAR_URL 상수 사용
-export const getAvatar = (id) => {
-  return gaxios.get(`/avatars/${id}`);
+const avatarApi = {
+  getAvatar: (id) => gaxios.get(`/avatars/${id}`),
+  getAvatars: () => gaxios.get('/avatars'),
+  getCertainAvatarInfo: (id) => gaxios.get(`/avatars/${id}?populate=comments`),
+  postAvatar: (data) => gaxios.post('/avatars', { data }),
 };
 
-export const postAvatar = (data) => {
-  return gaxios.post('/avatars', { data });
-};
-
-export const getCertainAvatarInfo = (id) => {
-  return gaxios.get(`/avatars/${id}?populate=comments`);
-};
+export default avatarApi;

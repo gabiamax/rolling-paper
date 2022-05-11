@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { postAvatar } from '@/api/avatar';
+import avatarApi from '@/api/avatar';
 import SelectAvatar from '@/components/AddUserModal/SelectAvatar.vue';
 
 export default {
@@ -140,7 +140,8 @@ export default {
         description: this.description,
         img_link: this.getAvatarUrl(),
       };
-      await postAvatar(data)
+      await avatarApi
+        .postAvatar(data)
         .then((res) => {
           if (res.status === 200) {
             this.completeAddAvatar();
