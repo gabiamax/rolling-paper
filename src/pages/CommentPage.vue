@@ -40,7 +40,7 @@ export default {
         content: '',
       },
       comments: [],
-      isLoading: false,
+      isLoading: true,
     };
   },
   computed: {
