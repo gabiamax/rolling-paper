@@ -8,7 +8,7 @@
 
 <script>
 import AvatarsList from '@/components/AvatarsList.vue';
-import { getAvatars } from '@/api/avatar';
+import avatarApi from '@/api/avatar';
 import { SIZE } from '@/utils/constants';
 import Header from '@/components/Header.vue';
 
@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     async fetchAvatars() {
-      const avatars = await getAvatars();
-      return avatars;
+      const avatars = await avatarApi.getAvatars()
+      return avatars.data.data;
     },
     getRandomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
