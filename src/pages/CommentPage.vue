@@ -3,12 +3,14 @@
     <div class="comment-wrapper">
       <Introduction :avatar="avatar" />
       <CommentInput v-model="comment" @submit="addCommentItem" />
-      <CommentItem
-        v-for="commentItem in comments"
-        :key="commentItem.id"
-        :commentItem="commentItem"
-        @delete="deleteCommentItem(commentItem.id)"
-      />
+      <ul class="comment-list">
+        <CommentItem
+          v-for="commentItem in comments"
+          :key="commentItem.id"
+          :commentItem="commentItem"
+          @delete="deleteCommentItem(commentItem.id)"
+        />
+      </ul>
     </div>
   </main>
 </template>
@@ -80,7 +82,12 @@ export default {
     height: 100vh;
     margin: 0 auto;
     padding: 43px 48px 38px 48px;
-    background: #f2f3f5;
+    background: white;
+  }
+
+  .comment-list {
+    width: 100%;
+    margin-top: 0.5rem;
   }
 }
 </style>

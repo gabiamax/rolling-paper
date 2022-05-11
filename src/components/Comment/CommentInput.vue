@@ -9,9 +9,12 @@
           name="author"
           placeholder="작성자"
           @input="updateInput"
+          @focus="authorFocused = true"
+          @blur="authorFocused = false"
         />
       </label>
-      <p v-show="!value.author.trim()">작성자를 입력해주세요</p>
+      <p v-if="authorFocused && !value.author.trim()">작성자를 입력해주세요</p>
+      <p else>&nbsp;</p>
     </div>
     <div class="comment__container--content">
       <label for="content-input" class="comment__input--content">
@@ -21,9 +24,12 @@
           name="content"
           placeholder="댓글을 입력해주세요"
           @input="updateInput"
+          @focus="contentFocused = true"
+          @blur="contentFocused = false"
         />
       </label>
-      <p v-show="!value.content.trim()">댓글을 입력해주세요</p>
+      <p v-if="contentFocused && !value.content.trim()">댓글을 입력해주세요</p>
+      <p else>&nbsp;</p>
     </div>
     <div>
       <button type="submit" class="comment__button--add">등록</button>
@@ -39,16 +45,16 @@ export default {
       default: () => ({}),
     },
   },
-  mounted() {
-    this.focusInput();
+  data() {
+    return {
+      authorFocused: false,
+      contentFocused: false,
+    };
   },
   methods: {
     updateInput(e) {
       const { name, value } = e.target;
       this.$emit('input', { ...this.value, [name]: value });
-    },
-    focusInput() {
-      this.$refs.author.focus();
     },
     checkCommentForm() {
       const { author, content } = this.value;
@@ -64,7 +70,7 @@ export default {
 .comment__form {
   display: flex;
   justify-content: center;
-  margin: 1rem;
+  margin: 0.5rem;
   height: 80px;
   .comment__container--author {
     margin: 0.5rem;
@@ -95,13 +101,17 @@ export default {
   }
 
   .comment__button--add {
-    background-color: black;
+    background-color: #2985db;
     color: white;
     border-radius: 6px;
     width: 60px;
     height: 40px;
     margin: 0.5rem;
     cursor: pointer;
+
+    &:hover {
+      background-color: darken(#2985db, 10%);
+    }
   }
 }
 </style>

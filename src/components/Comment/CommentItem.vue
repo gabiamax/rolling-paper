@@ -26,15 +26,19 @@ export default {
 .comment__item {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  margin: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  width: 700px;
+  background-color: #f2f3f5;
   &--author {
     min-width: 100px;
     max-width: 150px;
     font-weight: 600;
     margin: 0.8rem;
+  }
+
+  &--content {
+    flex-grow: 1;
   }
 
   &--delete {
