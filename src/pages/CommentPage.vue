@@ -17,51 +17,59 @@
 <script>
 import CommentInput from '@/components/Comment/CommentInput.vue';
 import CommentItem from '@/components/Comment/CommentItem.vue';
-import { getAvatar, getCertainAvatarInfo } from '@/api/avatar';
+import avatarApi from '@/api/avatar';
+import commentApi from '@/api/comment';
 import Introduction from '@/components/Introduction.vue';
 
 export default {
   components: { Introduction, CommentInput, CommentItem },
   data() {
     return {
-      comments: [],
+      id: '',
+      avatar: {},
       comment: {
         author: '',
         content: '',
-        id: this.id,
       },
-      avatar: {},
-      id: '',
+      comments: [],
     };
   },
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
     this.avatar = await this.fetchAvatar(this.id);
-    this.comments = await this.fetchAllInfo(this.id);
+    this.comments = await this.fetchComment(this.id);
   },
   methods: {
-    addCommentItem() {
-      // TODO : API 연결 필요
-      this.comments.push({ id: 5, attributes: this.comment });
-      this.initCommentItem();
-    },
-    deleteCommentItem(commentId) {
-      this.comments = this.comments.filter(({ id }) => id !== commentId);
+    async deleteCommentItem(commentId) {
+      try {
+        await commentApi.deleteComment(commentId);
+        this.comments = await this.fetchComment(this.id);
+      } catch (e) {
+        alert(e.message);
+      }
     },
     initCommentItem() {
       this.comment = { ...this.comment, author: '', content: '' };
-      // this.comment.author = '';
-      // this.comment.content = '';
     },
-    async fetchAllInfo(id) {
-      const { data } = await getCertainAvatarInfo(id);
-      const commentInfo = data.data.attributes.comments.data;
+    async fetchComment(id) {
+      const { data } = await avatarApi.getCertainAvatarInfo(id);
+      const commentInfo = data.data.attributes.comments.data.reverse();
       return commentInfo;
     },
     async fetchAvatar(id) {
-      const { data } = await getAvatar(id);
+      const { data } = await avatarApi.getAvatar(id);
       return data.data.attributes;
+    },
+
+    async addCommentItem() {
+      try {
+        await commentApi.postComment({ avatar: this.id, ...this.comment });
+        this.comments = await this.fetchComment(this.id);
+        this.initCommentItem();
+      } catch (e) {
+        alert(e.message);
+      }
     },
     // searchCommentById(id, datas) {
     //   return datas.find((data) => data.id === id).attributes.comments.data;
@@ -88,6 +96,8 @@ export default {
   .comment-list {
     width: 100%;
     margin-top: 0.5rem;
+    overflow-y: auto;
+    height: 500px;
   }
 }
 </style>
