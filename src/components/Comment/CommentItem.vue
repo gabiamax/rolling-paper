@@ -32,9 +32,8 @@ export default {
   background-color: #f2f3f5;
   &--author {
     min-width: 100px;
-    max-width: 150px;
     font-weight: 600;
-    margin: 0.8rem;
+    margin: 1rem;
   }
 
   &--content {
@@ -47,7 +46,7 @@ export default {
     border-radius: 6px;
     padding: 5px;
     margin: 1rem;
-    width: 50px;
+    min-width: 50px;
   }
 }
 </style>
