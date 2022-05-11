@@ -1,5 +1,9 @@
-import gaxios from '@/utils/axios';
+import gaxios from '@/api/config/axios';
 
-export const getAvatar = ({ id }) => {
-  return gaxios.get(`/avatars/${id}`);
+const avatarApi = {
+  getAvatar: ({ id }) => gaxios.get(`/avatars/${id}`),
+  getAvatars: () => gaxios.get('/avatars'),
+  getCertainUser: ({ id }) => gaxios.get(`/avatars/${id}?populate=comments`),
 };
+
+export default avatarApi;

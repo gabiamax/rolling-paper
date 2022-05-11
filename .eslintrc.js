@@ -21,6 +21,7 @@ module.exports = {
     'no-alert': 'off',
     'vue/no-v-html': 'off',
     'vue/attribute-hyphenation': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/require-name-property': 'off',
     'import/no-cycle': 'off',
     'no-use-before-define': 'off',
@@ -30,7 +31,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
-    'vue/multi-word-component-names': 'off',
     'prettier/prettier': [
       'error',
       {
