@@ -1,0 +1,14 @@
+@media print{
+  *{
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  #print{
+    background: none;
+
+    .comment__item{
+      background-color: #F2F3F5;
+    }
+  }
+}

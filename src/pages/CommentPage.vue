@@ -1,6 +1,6 @@
 <template>
   <main class="comment">
-    <div class="comment-wrapper">
+    <div id="print" class="comment-wrapper">
       <Introduction :avatar="avatar" />
       <CommentInput v-model="comment" @submit="addCommentItem" />
       <CommentItem
@@ -10,6 +10,7 @@
         @delete="deleteCommentItem(commentItem.id)"
       />
     </div>
+    <button class="fab no-print" @click="print">print</button>
   </main>
 </template>
 <script>
@@ -17,6 +18,7 @@ import CommentInput from '@/components/Comment/CommentInput.vue';
 import CommentItem from '@/components/Comment/CommentItem.vue';
 import { getAvatar, getCertainAvatarInfo } from '@/api/avatar';
 import Introduction from '@/components/Introduction.vue';
+import HTMLElementPrint from '@/utils/print';
 
 export default {
   components: { Introduction, CommentInput, CommentItem },
@@ -64,13 +66,19 @@ export default {
     // searchCommentById(id, datas) {
     //   return datas.find((data) => data.id === id).attributes.comments.data;
     // },
+    print() {
+      HTMLElementPrint('print', 1000, 700, '롤링페이퍼');
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '@/assets/scss/print.scss';
 .comment {
-  .comment-wrapper {
+  background: url('../assets/images/background.JPG');
+  background-size: contain;
+  &-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
