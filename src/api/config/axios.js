@@ -1,3 +1,4 @@
+// 공통 axios 설정 관련
 import axios from 'axios';
 
 const baseURL = 'https://rolling-paper-api.herokuapp.com/api';
