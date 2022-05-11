@@ -74,21 +74,21 @@ export default {
       return { comments, avatar };
     },
     async addComment() {
-      try {
-        await commentApi.postComment({ avatar: this.id, ...this.commentInput });
-        this.comments = (await this.fetchUser(this.id)).comments;
-        this.initCommentItem();
-      } catch (e) {
-        alert(e.message);
-      }
+      await this.$ajaxWithErrorHandler({
+        func: commentApi.postComment,
+        params: { data: { avatar: this.id, ...this.commentInput } },
+        errorMessage: '댓글을 등록할 수 없습니다',
+      });
+      this.comments = (await this.fetchUser(this.id)).comments;
+      this.initCommentItem();
     },
     async deleteComment(commentId) {
-      try {
-        await commentApi.deleteComment(commentId);
-        this.comments = (await this.fetchUser(this.id)).comments;
-      } catch (e) {
-        alert(e.message);
-      }
+      await this.$ajaxWithErrorHandler({
+        func: commentApi.deleteComment,
+        params: { id: commentId },
+        errorMessage: '댓글을 삭제할 수 없습니다.',
+      });
+      this.comments = (await this.fetchUser(this.id)).comments;
     },
   },
 };
