@@ -8,8 +8,9 @@
 
 <script>
 import AvatarsList from '@/components/AvatarsList.vue';
+import { getAvatars } from '@/api/avatar';
+import { SIZE } from '@/utils/constants';
 // import Header from '@/components/Header.vue';
-// import { getAvatars } from '@/api/avatar';
 
 export default {
   components: { AvatarsList },
@@ -19,39 +20,33 @@ export default {
     };
   },
   async created() {
-    //! px 가공하여 넣기!
-    this.avatars = await this.fetchAvatars();
+    const data = await this.fetchAvatars();
+    //! 데이터 저장시 랜덤 값을 넣을 때
+    // data.forEach(({ attributes: { position_x, position_y } }, i) => {
+    //   data[i].style = { top: `${position_x}px`, left: `${position_y}px` };
+    // });
+    // TODO 임시: 뿌려줄 때 마다 랜덤 값 지정
+    data.forEach((avatar) => {
+      const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR);
+
+      /* eslint-disable */
+      avatar.style = { top: y+'px', left: x+'px' };
+    });
+    this.avatars = data;
   },
   methods: {
     async fetchAvatars() {
       //! 목업 지울 때 활성화하기
-      // const avatars = await getAvatars();
-      // return avatars;
-      // Mock data
-      return [
-        {
-          id: 3,
-          attributes: {
-            name: '류한경',
-            description: '안녕하세요 류한경입니다.',
-            createdAt: '2022-05-04T16:48:11.635Z',
-            img_src: null,
-          },
-          positions: {
-            //! 데이터는 Number
-            top: '50px',
-            left: '80px',
-          },
-        },
-        {
-          id: 2,
-          attributes: { name: '김민석', description: '맥스 짱', createdAt: '2022-05-01T05:47:52.533Z', img_src: null },
-          positions: {
-            top: '0',
-            left: '0',
-          },
-        },
-      ];
+      const avatars = await getAvatars();
+      return avatars;
+    },
+    getRandomNumber(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    },
+    getRandomXY(wrapper, avatar) {
+      const x = this.getRandomNumber(0, wrapper.width - avatar.width);
+      const y = this.getRandomNumber(0, wrapper.height - avatar.height);
+      return { x, y };
     },
   },
 };

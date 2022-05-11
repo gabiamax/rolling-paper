@@ -1,8 +1,7 @@
 <template>
   <main class="avatars-wrapper">
     <ul class="avatars-list">
-      <!-- :style="top: x, top:y" -->
-      <li v-for="{ id, attributes: { name, img_src }, positions } in avatars" :id="id" :key="id" :style="positions">
+      <li v-for="{ id, attributes: { name, img_src }, style } in avatars" :id="id" :key="id" :style="style">
         <router-link :to="'/comment/' + id">
           <img :src="img_src || defaultImage" :alt="name" :title="name" />
           <div class="avatar-name">{{ name }}</div>
@@ -25,7 +24,6 @@ export default {
     },
   },
   data() {
-    // return {
     return {
       defaultImage,
     };
@@ -52,12 +50,17 @@ li {
   justify-content: center;
   overflow: hidden;
   margin-top: 100px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
 }
 
 .avatars-list {
   /* background-image: url('@/assets/images/background.JPG'); */
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   background-size: cover;
+  //! 알고리즘에도 사용해야 함: 상수 분리 어떻게?
   width: 1000px;
   height: 700px;
   position: relative;
@@ -65,16 +68,23 @@ li {
 
 .avatars-list li {
   position: absolute;
+  //! 알고리즘에도 사용해야 함: 상수 분리 어떻게?
+  height: 269px;
+  width: 150px;
+  overflow: hidden;
   a {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+  &:hover {
+    & .avatar-name {
+      background-color: #ffffff;
+    }
+  }
 }
 
 .avatar-name {
-  //! Hover시 투명도 없애기
-  // background-color: #ffffff;
   background-color: #ffffffa5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
