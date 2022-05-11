@@ -1,40 +1,21 @@
 <template>
   <div class="add-user-modal">
     <div class="add-user-modal__container">
-      <div class="add-user-modal__wrap wrap-title">
+      <div class="add-user-modal__wrap--title">
         <h1>Welcome {{ nickname }}!</h1>
         <button class="close-btn" @click="$emit('close', false)">
           <img src="@/assets/icons/bx-x.svg" alt="" />
         </button>
       </div>
       <div class="add-user-modal__form">
-        <div class="add-user-modal__wrap wrap-avatar">
-          <div v-if="avatarType === 'male'" class="wrap-avatar__view">
-            <img src="@/assets/images/man.png" alt="" />
-          </div>
-          <div v-else-if="avatarType === 'female'" class="wrap-avatar__view">
-            <img src="@/assets/images/women.png" alt="" />
-          </div>
-          <div v-else class="wrap-avatar__view">
-            <p v-if="customUrl === ''">이미지 주소를 입력해주세요</p>
-            <img v-else :src="customUrl" alt="" @error="imgErrorHandler" @load="checkDisabled = false" />
-          </div>
-          <div class="wrap-avatar__select">
-            <label for="avatar-type-male" @change="selectAvatarType('male')">
-              <input id="avatar-type-male" type="radio" name="avatar-type" checked />
-              <p>male</p>
-            </label>
-            <label for="avatar-type-female" @change="selectAvatarType('female')">
-              <input id="avatar-type-female" type="radio" name="avatar-type" />
-              <p>female</p>
-            </label>
-            <label for="avatar-type-custom" @change="selectAvatarType('custom')">
-              <input id="avatar-type-custom" type="radio" name="avatar-type" />
-              <p>custom</p>
-            </label>
-          </div>
-        </div>
-        <div class="add-user-modal__wrap wrap-input">
+        <SelectAvatar
+          :customUrl="customUrl"
+          :avatarType="avatarType"
+          @select="selectAvatarType"
+          @error="imgErrorHandler"
+          @load="setCheckDisabled"
+        ></SelectAvatar>
+        <div class="add-user-modal__wrap--input">
           <p class="sub-title">닉네임</p>
           <input
             :value="nickname"
@@ -75,7 +56,7 @@
           </div>
         </div>
       </div>
-      <div class="add-user-modal__wrap wrap-bottom">
+      <div class="add-user-modal__wrap--bottom">
         <button class="custom-btn" :disabled="isDisabled" @click="addAvatar">생성하기</button>
       </div>
     </div>
@@ -84,9 +65,11 @@
 
 <script>
 import { postAvatar } from '@/api/avatar';
+import SelectAvatar from '@/components/AddUserModal/SelectAvatar.vue';
 
 export default {
   name: 'AddUserModal',
+  components: { SelectAvatar },
   data() {
     return {
       avatarType: 'male',
@@ -127,6 +110,13 @@ export default {
     updateInputCustomUrl(e) {
       this.inputCustomUrl = e.target.value;
     },
+    setCheckDisabled(isDisable) {
+      this.checkDisabled = isDisable;
+    },
+    completeAddAvatar() {
+      alert(`캐릭터 생성 완료\n${this.nickname}님 환영합니다!`);
+      this.$emit('close', false);
+    },
     getAvatarUrl() {
       const defaultUrlMale =
         'https://www.avatarsinpixels.com/minipix/eyJQYW50cyI6IjEiLCJUb3AiOiIyIiwiSmFja2V0IjoiMyJ9/1/show.png';
@@ -142,7 +132,8 @@ export default {
 
       return this.avatarUrl;
     },
-    // http://www.avatarsinpixels.com/minipix/eyJNb3V0aCI6IjEiLCJTb2NrcyI6IjMiLCJQYW50cyI6IjEiLCJUb3AiOiIyIiwiSmFja2V0IjoiMiIsInBhbnRzVG9uZSI6IjQ0NDQ0NCIsInRvcFRvbmUiOiJmZmZmZmYiLCJzb2Nrc1RvbmUiOiIwYzAwNjEiLCJqYWNrZXRUb25lIjoiZWVlZWVlIn0=/1/show.png
+    // ? 테스트용 avatar url : http://www.avatarsinpixels.com/minipix/eyJNb3V0aCI6IjEiLCJTb2NrcyI6IjMiLCJQYW50cyI6IjEiLCJUb3AiOiIyIiwiSmFja2V0IjoiMiIsInBhbnRzVG9uZSI6IjQ0NDQ0NCIsInRvcFRvbmUiOiJmZmZmZmYiLCJzb2Nrc1RvbmUiOiIwYzAwNjEiLCJqYWNrZXRUb25lIjoiZWVlZWVlIn0=/1/show.png
+    // TODO: error handler 연결
     async addAvatar() {
       const data = {
         name: this.nickname,
@@ -152,7 +143,7 @@ export default {
       await postAvatar(data)
         .then((res) => {
           if (res.status === 200) {
-            alert(`캐릭터 생성 완료\n${this.nickname}님 환영합니다!`);
+            this.completeAddAvatar();
           }
         })
         .catch((err) => {
@@ -178,7 +169,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 5% 20%;
+    margin: 4% 20%;
     padding: 2rem;
     border-radius: 48px;
     background: #ffffff;
@@ -197,61 +188,32 @@ export default {
       border-radius: 12px;
       border: 2px solid black;
       padding: 12px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
   }
 
   &__wrap {
     width: 100%;
-  }
-}
 
-.wrap-avatar {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin-right: 3rem;
-  width: 45%;
-
-  &__view {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 15rem;
-    height: 15rem;
-    margin: 1rem;
-
-    img {
-      width: 100%;
-      height: 100%;
+    &--title {
+      display: flex;
+      justify-content: space-between;
+      height: inherit;
+      margin-bottom: 1rem;
     }
-  }
 
-  &__select {
-    display: flex;
-    width: 100%;
+    &--input {
+      display: flex;
+      flex-direction: column;
+      width: 55%;
+    }
 
-    label {
+    &--bottom {
       display: flex;
       justify-content: center;
-      align-items: center;
-      flex-direction: column;
-
-      width: 100%;
+      margin-top: 0.5rem;
     }
   }
-}
-.wrap-input {
-  display: flex;
-  flex-direction: column;
-  width: 55%;
-}
-
-.wrap-title {
-  display: flex;
-  justify-content: space-between;
-  height: inherit;
-  margin-bottom: 1rem;
 }
 
 .sub-title {
@@ -285,11 +247,5 @@ export default {
 .wrap-custom-input {
   display: flex;
   justify-content: space-between;
-}
-
-.wrap-bottom {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
 }
 </style>
