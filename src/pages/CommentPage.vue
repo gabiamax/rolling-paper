@@ -1,11 +1,21 @@
 <template>
   <main class="comment">
     <div class="comment-wrapper">
-      <Introduction :avatar="avatar" />
-      <Comment v-for="(comment, index) in comments" :key="index" :comment="comment" />
+      <div v-if="isLoading">로딩중입니다</div>
+      <div v-else>
+        <div v-if="isAvatarExist">
+          <Introduction :isLoading="isLoading" :avatar="avatar" />
+        </div>
+        <div v-else>아바타가 없습니다.</div>
+        <div v-if="isCommentExist">
+          <Comment v-for="(comment, index) in comments" :key="index" :comment="comment" />
+        </div>
+        <div v-else>댓글이 없습니다.</div>
+      </div>
     </div>
   </main>
 </template>
+
 <script>
 import { getComments } from '@/api/comment';
 import { getAvatar } from '@/api/avatar';
@@ -20,37 +30,52 @@ export default {
   data() {
     return {
       id: '',
-      comments: [],
       avatar: {},
+      comments: [],
+      // TODO: api endpoint 수정하면 isLoading으로 수정
+      isAvatarLoading: true,
+      isCommentLoading: true,
     };
+  },
+  computed: {
+    isAvatarExist() {
+      return Object.keys(this.avatar).length > 0;
+    },
+    isCommentExist() {
+      return this.comments.length > 0;
+    },
+    isLoading() {
+      return this.isAvatarLoading || this.isCommentLoading;
+    },
   },
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
+    console.log('created', await this.fetchAvatar(this.id));
     this.avatar = await this.fetchAvatar(this.id);
-    // this.comments = await this.fetchComments(this.id);
-    // TODO: API Response 있으면 삭제
-    this.comments = [
-      {
-        content: '댓글1',
-        createdAt: '2022-05-04T16:49:47.844Z',
-        author: null,
-      },
-      {
-        content: '댓글2',
-        createdAt: '2022-05-04T16:49:47.844Z',
-        author: null,
-      },
-    ];
+    this.comments = await this.fetchComments(this.id);
   },
   methods: {
+    // TODO: api endpoint 수정하고 하나로 묶기
     async fetchComments(id) {
-      const { data } = await getComments();
-      return this.searchCommentById(id, data.data);
+      try {
+        const { data } = await getComments();
+        return this.searchCommentById(id, data.data);
+      } catch (err) {
+        return [];
+      } finally {
+        this.isAvatarLoading = false;
+      }
     },
     async fetchAvatar(id) {
-      const { data } = await getAvatar(id);
-      return data.data.attributes;
+      try {
+        const { data } = await getAvatar(id);
+        return data.data.attributes;
+      } catch (err) {
+        return {};
+      } finally {
+        this.isCommentLoading = false;
+      }
     },
     searchCommentById(id, datas) {
       return datas.find((data) => data.id === id).attributes.comments.data;
