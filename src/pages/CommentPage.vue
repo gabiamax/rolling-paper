@@ -21,7 +21,6 @@ import { getComments } from '@/api/comment';
 import { getAvatar } from '@/api/avatar';
 import Comment from '@/components/Comment.vue';
 import Introduction from '@/components/Introduction.vue';
-import { toastError } from '@/utils/toast';
 
 export default {
   components: {
@@ -58,29 +57,25 @@ export default {
   methods: {
     // TODO: api endpoint 수정하고 하나로 묶기
     async fetchComments(id) {
-      try {
-        const { data } = await getComments();
-        return this.searchCommentById(id, data.data);
-      } catch (err) {
-        toastError('댓글을 불러오는데 실패했습니다.');
-        return [];
-      } finally {
-        this.isAvatarLoading = false;
-      }
+      const response = await this.$ajaxWithErrorHandler({
+        func: getComments,
+        errorMessage: '댓글을 불러올 수 없습니다',
+      });
+      this.isCommentLoading = false;
+      return this.searchCommentById(id, response.data.data) ?? [];
     },
     async fetchAvatar(id) {
-      try {
-        const { data } = await getAvatar(id);
-        return data.data.attributes;
-      } catch (err) {
-        toastError('아바타를 불러오는데 실패했습니다.');
-        return {};
-      } finally {
-        this.isCommentLoading = false;
-      }
+      const response = await this.$ajaxWithErrorHandler({
+        func: getAvatar,
+        params: { id },
+        errorMessage: '아바타를 불러올 수 없습니다',
+      });
+
+      this.isAvatarLoading = false;
+      return response?.data.data.attributes ?? {};
     },
     searchCommentById(id, datas) {
-      return datas.find((data) => data.id === id).attributes.comments.data;
+      return datas.find((data) => data.id === id)?.attributes.comments.data;
     },
   },
 };
