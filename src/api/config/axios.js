@@ -9,4 +9,26 @@ const gaxios = axios.create({
   },
 });
 
+gaxios.interceptors.request.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
+gaxios.interceptors.response.use(
+  (response) => {
+    if (response.data.error) {
+      window.alert(response.data.error);
+      return Promise.reject(response.data.error);
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
+
 export default gaxios;

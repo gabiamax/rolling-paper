@@ -1,5 +1,5 @@
 <template>
-  <div>{{ comment.content }}</div>
+  <div>{{ comment.attributes.content }}</div>
 </template>
 
 <script>

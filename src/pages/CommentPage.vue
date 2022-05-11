@@ -1,19 +1,27 @@
 <template>
   <main class="comment">
     <div class="comment-wrapper">
-      <Introduction :avatar="avatar" />
-      <CommentInput v-model="comment" @submit="addCommentItem" />
-      <ul class="comment-list">
-        <CommentItem
-          v-for="commentItem in comments"
-          :key="commentItem.id"
-          :commentItem="commentItem"
-          @delete="deleteCommentItem(commentItem.id)"
-        />
-      </ul>
+      <div v-if="isLoading">로딩중입니다</div>
+      <div v-else>
+        <div v-if="isAvatarExist">
+          <Introduction :isLoading="isLoading" :avatar="avatar" />
+        </div>
+        <div v-else>아바타가 없습니다.</div>
+        <CommentInput v-model="commentInput" @submit="addComment" />
+        <ul v-if="isCommentExist" class="comment-list">
+          <CommentItem
+            v-for="comment in comments"
+            :key="comment.id"
+            :comment="comment"
+            @delete="deleteComment(comment.id)"
+          />
+        </ul>
+        <div v-else>댓글이 없습니다.</div>
+      </div>
     </div>
   </main>
 </template>
+
 <script>
 import CommentInput from '@/components/Comment/CommentInput.vue';
 import CommentItem from '@/components/Comment/CommentItem.vue';
@@ -27,53 +35,61 @@ export default {
     return {
       id: '',
       avatar: {},
-      comment: {
+      commentInput: {
         author: '',
         content: '',
       },
       comments: [],
+      isLoading: true,
     };
+  },
+  computed: {
+    isAvatarExist() {
+      return Object.keys(this.avatar).length > 0;
+    },
+    isCommentExist() {
+      return this.comments.length > 0;
+    },
   },
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
-    this.avatar = await this.fetchAvatar(this.id);
-    this.comments = await this.fetchComment(this.id);
+    const { avatar, comments } = await this.fetchUser(this.id);
+    this.avatar = avatar;
+    this.comments = comments;
   },
   methods: {
-    async deleteCommentItem(commentId) {
-      try {
-        await commentApi.deleteComment(commentId);
-        this.comments = await this.fetchComment(this.id);
-      } catch (e) {
-        alert(e.message);
-      }
-    },
     initCommentItem() {
-      this.comment = { ...this.comment, author: '', content: '' };
+      this.commentInput = { author: '', content: '' };
     },
-    async fetchComment(id) {
-      const { data } = await avatarApi.getCertainAvatarInfo(id);
-      const commentInfo = data.data.attributes.comments.data.reverse();
-      return commentInfo;
+    async fetchUser(id) {
+      const response = await this.$ajaxWithErrorHandler({
+        func: avatarApi.getCertainUser,
+        params: { id },
+        errorMessage: '사용자 정보를 불러올 수 없습니다',
+      });
+      this.isLoading = false;
+      const comments = response?.data.data.attributes.comments.data.reverse() ?? [];
+      const avatar = response?.data.data.attributes ?? {};
+      return { comments, avatar };
     },
-    async fetchAvatar(id) {
-      const { data } = await avatarApi.getAvatar(id);
-      return data.data.attributes;
-    },
-
-    async addCommentItem() {
+    async addComment() {
       try {
-        await commentApi.postComment({ avatar: this.id, ...this.comment });
-        this.comments = await this.fetchComment(this.id);
+        await commentApi.postComment({ avatar: this.id, ...this.commentInput });
+        this.comments = (await this.fetchUser(this.id)).comments;
         this.initCommentItem();
       } catch (e) {
         alert(e.message);
       }
     },
-    // searchCommentById(id, datas) {
-    //   return datas.find((data) => data.id === id).attributes.comments.data;
-    // },
+    async deleteComment(commentId) {
+      try {
+        await commentApi.deleteComment(commentId);
+        this.comments = (await this.fetchUser(this.id)).comments;
+      } catch (e) {
+        alert(e.message);
+      }
+    },
   },
 };
 </script>
