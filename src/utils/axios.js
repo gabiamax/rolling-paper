@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Vue from 'vue';
 
 const baseURL = 'https://rolling-paper-api.herokuapp.com/api';
 const gaxios = axios.create({
@@ -27,12 +26,6 @@ gaxios.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response) {
-      const {
-        data: { message },
-      } = error.response;
-      Vue.$toast.error(message ?? '잘못된 요청입니다');
-    }
     return Promise.reject(error);
   },
 );

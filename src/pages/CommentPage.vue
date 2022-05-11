@@ -21,6 +21,7 @@ import { getComments } from '@/api/comment';
 import { getAvatar } from '@/api/avatar';
 import Comment from '@/components/Comment.vue';
 import Introduction from '@/components/Introduction.vue';
+import { toastError } from '@/utils/toast';
 
 export default {
   components: {
@@ -51,7 +52,6 @@ export default {
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
-    console.log('created', await this.fetchAvatar(this.id));
     this.avatar = await this.fetchAvatar(this.id);
     this.comments = await this.fetchComments(this.id);
   },
@@ -62,6 +62,7 @@ export default {
         const { data } = await getComments();
         return this.searchCommentById(id, data.data);
       } catch (err) {
+        toastError('댓글을 불러오는데 실패했습니다.');
         return [];
       } finally {
         this.isAvatarLoading = false;
@@ -72,6 +73,7 @@ export default {
         const { data } = await getAvatar(id);
         return data.data.attributes;
       } catch (err) {
+        toastError('아바타를 불러오는데 실패했습니다.');
         return {};
       } finally {
         this.isCommentLoading = false;
