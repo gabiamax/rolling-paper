@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//! BEM으로 스타일 정리하기
 /* 기본 스타일이지만 필수적이라 추가 */
 ul {
   padding: 0;
@@ -64,28 +63,28 @@ li {
   width: 1000px;
   height: 700px;
   position: relative;
-}
-
-.avatars-list li {
-  position: absolute;
-  //! 알고리즘에도 사용해야 함: 상수 분리 어떻게?
-  height: 269px;
-  width: 150px;
-  overflow: hidden;
-  a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  &:hover {
-    & .avatar-name {
-      background-color: #ffffff;
+  li {
+    position: absolute;
+    //! 알고리즘에도 사용해야 함: 상수 분리 어떻게?
+    height: 269px;
+    width: 150px;
+    overflow: hidden;
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &:hover {
+      & .avatar-name {
+        background-color: #ffffff;
+      }
     }
   }
 }
 
 .avatar-name {
   background-color: #ffffffa5;
+  //! 임시로 영역 구분
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
   padding: 6px;
