@@ -1,4 +1,4 @@
-import gaxios from '@/utils/axios';
+import gaxios from '@/api/config/axios';
 
 const commentApi = {
   getComments: () => gaxios.get('/avatars?populate=comments'),
