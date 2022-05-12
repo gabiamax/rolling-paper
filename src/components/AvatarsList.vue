@@ -67,7 +67,7 @@ li {
   background-size: cover;
   width: 80vw;
   max-height: 60vh;
-  overflow: scroll;
+  overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
@@ -79,8 +79,8 @@ li {
       align-items: center;
     }
     img {
-      width: 167px;
-      height: 167px;
+      width: 100%;
+      height: 100%;
     }
     &:hover {
       filter: drop-shadow(0px 0px 4px #5abaff);
