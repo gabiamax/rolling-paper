@@ -1,5 +1,5 @@
 <template>
-  <li class="comment__item">
+  <li class="comment__item page-break">
     <div class="comment__item--author">{{ commentItem.attributes.author }}</div>
     <div class="comment__item--content">{{ commentItem.attributes.content }}</div>
     <button class="comment__item--delete no-print" @click="deleteComment">삭제</button>
@@ -35,6 +35,7 @@ export default {
 
   &--author {
     min-width: 100px;
+    max-width: 25%;
     font-weight: 600;
   }
 
