@@ -2,8 +2,8 @@
   <div class="introduction">
     <img class="avatar" :src="avatarImg" :alt="avatar.name" />
     <div class="wrapper">
-      <div class="name">{{ avatar.name || '로딩중' }}</div>
-      <div class="description">{{ avatar.description || '로딩중' }}</div>
+      <div class="name">{{ avatar.name }}</div>
+      <div class="description">{{ avatar.description }}</div>
     </div>
   </div>
 </template>
