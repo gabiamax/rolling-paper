@@ -50,7 +50,6 @@ export default {
 
       const x = this.getRandomNumber(0, maxX) + unit;
       const y = this.getRandomNumber(0, maxY) + unit;
-      console.log({x, y});
       return { x, y };
     },
   },
