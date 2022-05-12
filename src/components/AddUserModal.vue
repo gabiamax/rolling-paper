@@ -127,7 +127,11 @@ export default {
         if (this.avatarType === 'male') {
           return defaultUrlMale;
         }
-        return defaultUrlFemale;
+        if (this.avatarType === 'female') {
+          return defaultUrlFemale;
+        }
+
+        return this.customUrl;
       }
 
       return this.avatarUrl;
