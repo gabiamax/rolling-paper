@@ -1,5 +1,8 @@
 <template>
   <main class="comment">
+    <button class="back" @click="$router.back()">
+      <BackIcon />
+    </button>
     <div class="comment-wrapper">
       <div v-if="isLoading">로딩중입니다</div>
       <div v-else>
@@ -19,6 +22,7 @@
         <div v-else>댓글이 없습니다.</div>
       </div>
     </div>
+    <button class="print"><PrintIcon /></button>
   </main>
 </template>
 
@@ -28,9 +32,11 @@ import CommentItem from '@/components/Comment/CommentItem.vue';
 import avatarApi from '@/api/avatar';
 import commentApi from '@/api/comment';
 import Introduction from '@/components/Introduction.vue';
+import BackIcon from '@/assets/icons/back.svg';
+import PrintIcon from '@/assets/icons/printer.svg';
 
 export default {
-  components: { Introduction, CommentInput, CommentItem },
+  components: { Introduction, CommentInput, CommentItem, BackIcon, PrintIcon },
   data() {
     return {
       id: '',
@@ -95,6 +101,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.back {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  cursor: pointer;
+  svg path {
+    fill: #fff;
+  }
+}
+.print {
+  position: fixed;
+  bottom: 24px;
+  right: 20px;
+  padding: 18px;
+  background: #222;
+  border-radius: 100px;
+  cursor: pointer;
+  svg path {
+    fill: #fff;
+  }
+}
 .comment {
   .comment-wrapper {
     display: flex;
