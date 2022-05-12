@@ -35,7 +35,7 @@
               @input="updateDescription"
             />
           </label>
-          <div v-if="avatarType === 'custom'">
+          <div v-if="checkType('custom')">
             <p class="sub-title">이미지 주소</p>
             <div class="wrap-custom-input">
               <input
@@ -45,11 +45,7 @@
                 placeholder="이미지 주소를 입력해주세요"
                 @input="updateInputCustomUrl"
               />
-              <button
-                class="custom-btn"
-                :disabled="inputCustomUrl.length < 1"
-                @click="applyCustomAvatar(inputCustomUrl)"
-              >
+              <button class="custom-btn" :disabled="!inputCustomUrl.length" @click="applyCustomAvatar(inputCustomUrl)">
                 확인
               </button>
             </div>
@@ -110,6 +106,9 @@ export default {
     updateInputCustomUrl(e) {
       this.inputCustomUrl = e.target.value;
     },
+    checkType(type) {
+      return this.avatarType === type;
+    },
     setCheckDisabled(isDisable) {
       this.checkDisabled = isDisable;
     },
@@ -138,7 +137,7 @@ export default {
       const data = {
         name: this.nickname,
         description: this.description,
-        img_link: this.getAvatarUrl(),
+        img_src: this.getAvatarUrl(),
       };
       await avatarApi
         .postAvatar(data)

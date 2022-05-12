@@ -1,9 +1,9 @@
 <template>
   <div class="select-avatar">
-    <div v-if="avatarType === 'male'" class="select-avatar__view">
+    <div v-if="isCheckType('male')" class="select-avatar__view">
       <img src="@/assets/images/man.png" alt="" />
     </div>
-    <div v-else-if="avatarType === 'female'" class="select-avatar__view">
+    <div v-else-if="isCheckType('female')" class="select-avatar__view">
       <img src="@/assets/images/women.png" alt="" />
     </div>
     <div v-else class="select-avatar__view">
@@ -11,17 +11,9 @@
       <img v-else :src="customUrl" alt="" @error="$emit('error')" @load="$emit('load', false)" />
     </div>
     <div class="select-avatar__radio">
-      <label for="avatar-type-male" @change="$emit('select', 'male')">
-        <input id="avatar-type-male" type="radio" name="avatar-type" checked />
-        <p>male</p>
-      </label>
-      <label for="avatar-type-female" @change="$emit('select', 'female')">
-        <input id="avatar-type-female" type="radio" name="avatar-type" />
-        <p>female</p>
-      </label>
-      <label for="avatar-type-custom" @change="$emit('select', 'custom')">
-        <input id="avatar-type-custom" type="radio" name="avatar-type" />
-        <p>custom</p>
+      <label v-for="(type, index) in avatarTypes" :key="type" :for="`avatar-type-${type}`" @change="onChangeType(type)">
+        <input :id="`avatar-type-${type}`" type="radio" name="avatar-type" :checked="isFirstIndex(index)" />
+        <p>{{ type }}</p>
       </label>
     </div>
   </div>
@@ -38,6 +30,22 @@ export default {
     customUrl: {
       type: String,
       required: true,
+    },
+  },
+  data() {
+    return {
+      avatarTypes: ['male', 'female', 'custom'],
+    };
+  },
+  methods: {
+    onChangeType(type) {
+      this.$emit('select', type);
+    },
+    isCheckType(type) {
+      return this.avatarType === type;
+    },
+    isFirstIndex(index) {
+      return index === 0;
     },
   },
 };
