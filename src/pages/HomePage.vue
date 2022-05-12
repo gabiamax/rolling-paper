@@ -19,6 +19,7 @@ import AddUserModal from '@/components/AddUserModal.vue';
 import PlusIcon from '@/assets/icons/plus.svg';
 
 export default {
+  name: 'HomePage',
   components: { Header, AvatarsList, AddUserModal, PlusIcon },
   data() {
     return {
