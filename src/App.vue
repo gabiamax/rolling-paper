@@ -5,6 +5,11 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import AjaxWithErrorHandler from '@/plugin/AjaxWithErrorHandler';
+
+Vue.use(AjaxWithErrorHandler);
+
 export default {
   name: 'App',
   components: {},
