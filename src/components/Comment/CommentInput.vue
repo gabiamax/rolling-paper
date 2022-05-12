@@ -8,12 +8,13 @@
           :value="value.author"
           name="author"
           placeholder="작성자"
+          maxlength="10"
           @input="updateInput"
           @focus="authorFocused = true"
           @blur="authorFocused = false"
         />
       </label>
-      <p v-if="authorFocused && !value.author.trim()">작성자를 입력해주세요</p>
+      <p v-if="authorFocused">{{ errors.author }}</p>
       <p else>&nbsp;</p>
     </div>
     <div class="comment__container--content">
@@ -28,7 +29,7 @@
           @blur="contentFocused = false"
         />
       </label>
-      <p v-if="contentFocused && !value.content.trim()">댓글을 입력해주세요</p>
+      <p v-if="contentFocused">{{ errors.content }}</p>
       <p else>&nbsp;</p>
     </div>
     <div>
@@ -41,6 +42,10 @@
 export default {
   props: {
     value: {
+      type: Object,
+      default: () => ({}),
+    },
+    errors: {
       type: Object,
       default: () => ({}),
     },
@@ -60,6 +65,8 @@ export default {
       const { author, content } = this.value;
       if (author.trim() && content.trim()) {
         this.$emit('submit');
+      } else {
+        alert('작성자와 댓글을 입력 후 등록해주세요!');
       }
     },
   },
