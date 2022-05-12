@@ -31,16 +31,16 @@ export default {
   },
   methods: {
     async init() {
-      const data = await this.fetchAvatars();
+      const avatars = await this.fetchAvatars();
 
       // TODO 임시: 뿌려줄 때 마다 랜덤 값 지정
-      data.forEach((avatar) => {
+      avatars.forEach((avatar) => {
         const unit = '%';
         const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR, unit);
         /* eslint-disable */
       avatar.style = { top: y, left: x};
     });
-    this.avatars = data;
+    this.avatars = avatars;
     },
     async fetchAvatars() {
       const response = await this.$ajaxWithErrorHandler({
