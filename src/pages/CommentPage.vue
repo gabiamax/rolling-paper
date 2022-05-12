@@ -1,69 +1,95 @@
 <template>
   <main class="comment">
     <div class="comment-wrapper">
-      <Introduction :avatar="avatar" />
-      <CommentInput v-model="comment" @submit="addCommentItem" />
-      <CommentItem
-        v-for="commentItem in comments"
-        :key="commentItem.id"
-        :commentItem="commentItem"
-        @delete="deleteCommentItem(commentItem.id)"
-      />
+      <div v-if="isLoading">로딩중입니다</div>
+      <div v-else>
+        <div v-if="isAvatarExist">
+          <Introduction :isLoading="isLoading" :avatar="avatar" />
+        </div>
+        <div v-else>아바타가 없습니다.</div>
+        <CommentInput v-model="commentInput" @submit="addComment" />
+        <ul v-if="isCommentExist" class="comment-list">
+          <CommentItem
+            v-for="comment in comments"
+            :key="comment.id"
+            :comment="comment"
+            @delete="deleteComment(comment.id)"
+          />
+        </ul>
+        <div v-else>댓글이 없습니다.</div>
+      </div>
     </div>
   </main>
 </template>
+
 <script>
 import CommentInput from '@/components/Comment/CommentInput.vue';
 import CommentItem from '@/components/Comment/CommentItem.vue';
-import { getAvatar, getCertainAvatarInfo } from '@/api/avatar';
+import avatarApi from '@/api/avatar';
+import commentApi from '@/api/comment';
 import Introduction from '@/components/Introduction.vue';
 
 export default {
   components: { Introduction, CommentInput, CommentItem },
   data() {
     return {
-      comments: [],
-      comment: {
+      id: '',
+      avatar: {},
+      commentInput: {
         author: '',
         content: '',
-        id: this.id,
       },
-      avatar: {},
-      id: '',
+      comments: [],
+      isLoading: true,
     };
+  },
+  computed: {
+    isAvatarExist() {
+      return Object.keys(this.avatar).length > 0;
+    },
+    isCommentExist() {
+      return this.comments.length > 0;
+    },
   },
   async created() {
     const { id } = this.$route.params;
     this.id = Number(id);
-    this.avatar = await this.fetchAvatar(this.id);
-    this.comments = await this.fetchAllInfo(this.id);
+    const { avatar, comments } = await this.fetchUser(this.id);
+    this.avatar = avatar;
+    this.comments = comments;
   },
   methods: {
-    addCommentItem() {
-      // TODO : API 연결 필요
-      this.comments.push({ id: 5, attributes: this.comment });
+    initCommentItem() {
+      this.commentInput = { author: '', content: '' };
+    },
+    async fetchUser(id) {
+      const response = await this.$ajaxWithErrorHandler({
+        func: avatarApi.getCertainUser,
+        params: { id },
+        errorMessage: '사용자 정보를 불러올 수 없습니다',
+      });
+      this.isLoading = false;
+      const comments = response?.data.data.attributes.comments.data.reverse() ?? [];
+      const avatar = response?.data.data.attributes ?? {};
+      return { comments, avatar };
+    },
+    async addComment() {
+      await this.$ajaxWithErrorHandler({
+        func: commentApi.postComment,
+        params: { data: { avatar: this.id, ...this.commentInput } },
+        errorMessage: '댓글을 등록할 수 없습니다',
+      });
+      this.comments = (await this.fetchUser(this.id)).comments;
       this.initCommentItem();
     },
-    deleteCommentItem(commentId) {
-      this.comments = this.comments.filter(({ id }) => id !== commentId);
+    async deleteComment(commentId) {
+      await this.$ajaxWithErrorHandler({
+        func: commentApi.deleteComment,
+        params: { id: commentId },
+        errorMessage: '댓글을 삭제할 수 없습니다.',
+      });
+      this.comments = (await this.fetchUser(this.id)).comments;
     },
-    initCommentItem() {
-      this.comment = { ...this.comment, author: '', content: '' };
-      // this.comment.author = '';
-      // this.comment.content = '';
-    },
-    async fetchAllInfo(id) {
-      const { data } = await getCertainAvatarInfo(id);
-      const commentInfo = data.data.attributes.comments.data;
-      return commentInfo;
-    },
-    async fetchAvatar(id) {
-      const { data } = await getAvatar(id);
-      return data.data.attributes;
-    },
-    // searchCommentById(id, datas) {
-    //   return datas.find((data) => data.id === id).attributes.comments.data;
-    // },
   },
 };
 </script>
@@ -78,7 +104,14 @@ export default {
     height: 100vh;
     margin: 0 auto;
     padding: 43px 48px 38px 48px;
-    background: #f2f3f5;
+    background: white;
+  }
+
+  .comment-list {
+    width: 100%;
+    margin-top: 0.5rem;
+    overflow-y: auto;
+    height: 500px;
   }
 }
 </style>

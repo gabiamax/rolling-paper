@@ -1,15 +1,22 @@
 <template>
   <li class="comment__item">
-    <div class="comment__item--author">{{ commentItem.attributes.author }}</div>
-    <div class="comment__item--content">{{ commentItem.attributes.content }}</div>
-    <button class="comment__item--delete" @click="deleteComment">삭제</button>
+    <div class="comment__item--author">{{ comment.attributes.author }}</div>
+    <div class="comment__item--content">{{ comment.attributes.content }}</div>
+    <div class="comment__item--delete">
+      <DeleteIcon @click="deleteComment" />
+    </div>
   </li>
 </template>
 
 <script>
+import DeleteIcon from '../../assets/icons/delete.svg';
+
 export default {
+  components: {
+    DeleteIcon,
+  },
   props: {
-    commentItem: {
+    comment: {
       type: Object,
       default: () => ({}),
     },
@@ -26,24 +33,33 @@ export default {
 .comment__item {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  margin: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  width: 700px;
+  background-color: #f2f3f5;
   &--author {
-    min-width: 100px;
-    max-width: 150px;
+    width: 80px;
     font-weight: 600;
-    margin: 0.8rem;
+    margin: 1rem;
+  }
+
+  &--content {
+    flex-grow: 1;
+    max-width: 530px;
   }
 
   &--delete {
-    color: white;
-    background-color: black;
-    border-radius: 6px;
-    padding: 5px;
-    margin: 1rem;
+    display: flex;
+    cursor: pointer;
     width: 50px;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      &:hover {
+        fill: red;
+      }
+    }
   }
 }
 </style>
