@@ -1,8 +1,8 @@
 <template>
-  <li class="comment__item">
+  <li class="comment__item page-break">
     <div class="comment__item--author">{{ comment.attributes.author }}</div>
     <div class="comment__item--content">{{ comment.attributes.content }}</div>
-    <div class="comment__item--delete">
+    <div class="comment__item--delete no-print">
       <DeleteIcon @click="deleteComment" />
     </div>
   </li>
@@ -37,10 +37,13 @@ export default {
   display: flex;
   align-items: center;
   background-color: #f2f3f5;
+  padding: 1rem 1.25rem;
+  gap: 12px;
+
   &--author {
-    width: 80px;
+    min-width: 100px;
+    max-width: 25%;
     font-weight: 600;
-    margin: 1rem;
   }
 
   &--content {
@@ -51,7 +54,6 @@ export default {
   &--delete {
     display: flex;
     cursor: pointer;
-    width: 50px;
     align-items: center;
     justify-content: center;
 

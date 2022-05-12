@@ -1,5 +1,5 @@
 <template>
-  <form class="comment__form" @submit.prevent="checkCommentForm">
+  <form class="comment__form no-print" @submit.prevent="checkCommentForm">
     <div class="comment__container--author">
       <label for="author-input" class="comment__input--author">
         <input

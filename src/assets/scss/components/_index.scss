@@ -1,1 +1,15 @@
 @import './_toast.scss';
+
+.fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: black;
+  cursor: pointer;
+  svg path {
+    fill: #fff;
+  }
+}

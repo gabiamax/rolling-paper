@@ -3,26 +3,24 @@
     <button class="back" @click="$router.back()">
       <BackIcon />
     </button>
-    <div class="comment-wrapper">
-      <div v-if="isLoading">로딩중입니다</div>
-      <div v-else>
-        <div v-if="isAvatarExist">
-          <Introduction :isLoading="isLoading" :avatar="avatar" />
-        </div>
-        <div v-else>아바타가 없습니다.</div>
-        <CommentInput v-model="commentInput" @submit="addComment" />
-        <ul v-if="isCommentExist" class="comment-list">
-          <CommentItem
-            v-for="comment in comments"
-            :key="comment.id"
-            :comment="comment"
-            @delete="deleteComment(comment.id)"
-          />
-        </ul>
-        <div v-else>댓글이 없습니다.</div>
+    <div v-if="isLoading" class="comment-wrapper">로딩중입니다</div>
+    <div v-else id="print" class="comment-wrapper">
+      <div v-if="isAvatarExist">
+        <Introduction :isLoading="isLoading" :avatar="avatar" />
       </div>
+      <div v-else>아바타가 없습니다.</div>
+      <CommentInput v-model="commentInput" @submit="addComment" />
+      <ul v-if="isCommentExist" class="comment-list">
+        <CommentItem
+          v-for="comment in comments"
+          :key="comment.id"
+          :comment="comment"
+          @delete="deleteComment(comment.id)"
+        />
+      </ul>
+      <div v-else>댓글이 없습니다.</div>
     </div>
-    <button class="print"><PrintIcon /></button>
+    <button class="fab no-print" @click="print"><PrintIcon /></button>
   </main>
 </template>
 
@@ -32,6 +30,7 @@ import CommentItem from '@/components/Comment/CommentItem.vue';
 import avatarApi from '@/api/avatar';
 import commentApi from '@/api/comment';
 import Introduction from '@/components/Introduction.vue';
+import HTMLElementPrint from '@/utils/print';
 import BackIcon from '@/assets/icons/back.svg';
 import PrintIcon from '@/assets/icons/printer.svg';
 
@@ -96,11 +95,15 @@ export default {
       });
       this.comments = (await this.fetchUser(this.id)).comments;
     },
+    print() {
+      HTMLElementPrint('print', 1000, 700, '롤링페이퍼');
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '@/assets/scss/print.scss';
 .back {
   position: fixed;
   top: 30px;
@@ -110,27 +113,18 @@ export default {
     fill: #fff;
   }
 }
-.print {
-  position: fixed;
-  bottom: 24px;
-  right: 20px;
-  padding: 18px;
-  background: #222;
-  border-radius: 100px;
-  cursor: pointer;
-  svg path {
-    fill: #fff;
-  }
-}
+
 .comment {
-  .comment-wrapper {
+  background: url('../assets/images/background.JPG');
+  background-size: contain;
+  &-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 769px;
     height: 100vh;
     margin: 0 auto;
-    padding: 43px 48px 38px 48px;
+    padding: 40px 45px 38px 45px;
     background: white;
   }
 
@@ -139,6 +133,7 @@ export default {
     margin-top: 0.5rem;
     overflow-y: auto;
     height: 500px;
+    padding: 0 6px;
   }
 }
 </style>
