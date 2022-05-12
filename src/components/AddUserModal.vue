@@ -4,7 +4,7 @@
       <div class="add-user-modal__wrap--title">
         <h1>Welcome {{ nickname }}!</h1>
         <button class="close-btn" @click="$emit('close', false)">
-          <img src="@/assets/icons/bx-x.svg" alt="" />
+          <CloseIcon />
         </button>
       </div>
       <div class="add-user-modal__form">
@@ -62,10 +62,11 @@
 <script>
 import avatarApi from '@/api/avatar';
 import SelectAvatar from '@/components/AddUserModal/SelectAvatar.vue';
+import CloseIcon from '@/assets/icons/close.svg';
 
 export default {
   name: 'AddUserModal',
-  components: { SelectAvatar },
+  components: { SelectAvatar, CloseIcon },
   data() {
     return {
       avatarType: 'male',

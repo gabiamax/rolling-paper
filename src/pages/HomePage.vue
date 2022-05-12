@@ -5,7 +5,7 @@
     <AvatarsList :avatars="avatars" />
     <AddUserModal v-if="isShowModal" @close="onCloseModal" />
     <button class="home-page__add-button" @click="onShowModal">
-      <img src="@/assets/icons/bxs-user-plus.svg" alt="" />
+      <PlusIcon />
     </button>
   </div>
 </template>
@@ -16,9 +16,10 @@ import avatarApi from '@/api/avatar';
 import { SIZE } from '@/utils/constants';
 import Header from '@/components/Header.vue';
 import AddUserModal from '@/components/AddUserModal.vue';
+import PlusIcon from '@/assets/icons/plus.svg';
 
 export default {
-  components: { Header, AvatarsList, AddUserModal },
+  components: { Header, AvatarsList, AddUserModal, PlusIcon },
   data() {
     return {
       avatars: [],
