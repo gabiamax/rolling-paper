@@ -26,6 +26,7 @@
   justify-content: center;
   p {
     font-size: 2.3rem;
+    word-break: keep-all;
   }
   i {
     position: absolute;
