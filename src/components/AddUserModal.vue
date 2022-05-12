@@ -136,24 +136,20 @@ export default {
 
       return this.avatarUrl;
     },
-    // ? 테스트용 avatar url : http://www.avatarsinpixels.com/minipix/eyJNb3V0aCI6IjEiLCJTb2NrcyI6IjMiLCJQYW50cyI6IjEiLCJUb3AiOiIyIiwiSmFja2V0IjoiMiIsInBhbnRzVG9uZSI6IjQ0NDQ0NCIsInRvcFRvbmUiOiJmZmZmZmYiLCJzb2Nrc1RvbmUiOiIwYzAwNjEiLCJqYWNrZXRUb25lIjoiZWVlZWVlIn0=/1/show.png
-    // TODO: error handler 연결
     async addAvatar() {
       const data = {
         name: this.nickname,
         description: this.description,
         img_src: this.getAvatarUrl(),
       };
-      await avatarApi
-        .postAvatar(data)
-        .then((res) => {
-          if (res.status === 200) {
-            this.completeAddAvatar();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const response = await this.$ajaxWithErrorHandler({
+        func: avatarApi.postAvatar,
+        params: data,
+        errorMessage: '해당 사용자를 추가할 수 없습니다.',
+      });
+      if (response.statusText === 'OK') {
+        this.completeAddAvatar();
+      }
     },
   },
 };
