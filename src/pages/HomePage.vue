@@ -27,18 +27,21 @@ export default {
     };
   },
   async created() {
-    const data = await this.fetchAvatars();
-
-    // TODO 임시: 뿌려줄 때 마다 랜덤 값 지정
-    data.forEach((avatar) => {
-      const unit = '%';
-      const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR, unit);
-      /* eslint-disable */
-      avatar.style = { top: y, left: x};
-    });
-    this.avatars = data;
+    await this.init();
   },
   methods: {
+    async init() {
+      const avatars = await this.fetchAvatars();
+
+      // TODO 임시: 뿌려줄 때 마다 랜덤 값 지정
+      avatars.forEach((avatar) => {
+        const unit = '%';
+        const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR, unit);
+        /* eslint-disable */
+      avatar.style = { top: y, left: x};
+    });
+    this.avatars = avatars;
+    },
     async fetchAvatars() {
       const response = await this.$ajaxWithErrorHandler({
         func: avatarApi.getAvatars,
@@ -62,7 +65,8 @@ export default {
     onShowModal() {
       this.isShowModal = true;
     },
-    onCloseModal(close) {
+    async onCloseModal(close) {
+      await this.init();
       this.isShowModal = close;
     }
   },
