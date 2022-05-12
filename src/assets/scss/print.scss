@@ -1,0 +1,33 @@
+@media print{
+  *{
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  #print,
+  .page-break {
+    display: block;
+    break-inside: avoid;
+  }
+
+  #print{
+    background: none;
+
+    .introduction{
+      flex-direction: column;
+    }
+
+    .description{
+      max-height: none;
+    }
+
+    .comment__item{
+      background-color: #F2F3F5;
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+@page{
+  margin: 20mm 0mm 20mm 0mm; 
+}
