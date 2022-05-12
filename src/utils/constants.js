@@ -1,10 +1,15 @@
 export const SIZE = {
   WRAPPER: {
-    width: 1000,
-    height: 700,
+    unit: 'viewport',
+    width: 80,
+    height: 60,
   },
   AVATAR: {
-    width: 150,
-    height: 269,
+    unit: '%',
+    width: 15,
+    height: 0,
+    // unit: 'px',
+    // width: 150,
+    // height: 269,
   },
 };
