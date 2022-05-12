@@ -1,8 +1,12 @@
 <template>
-  <div>
+  <div class="home-page">
     <!-- HEADER 넣기 -->
     <Header />
     <AvatarsList :avatars="avatars" />
+    <AddUserModal v-if="isShowModal" @close="onCloseModal" />
+    <button class="home-page__add-button" @click="onShowModal">
+      <img src="@/assets/icons/bxs-user-plus.svg" alt="" />
+    </button>
   </div>
 </template>
 
@@ -11,12 +15,14 @@ import AvatarsList from '@/components/AvatarsList.vue';
 import avatarApi from '@/api/avatar';
 import { SIZE } from '@/utils/constants';
 import Header from '@/components/Header.vue';
+import AddUserModal from '@/components/AddUserModal.vue';
 
 export default {
-  components: { Header, AvatarsList },
+  components: { Header, AvatarsList, AddUserModal },
   data() {
     return {
       avatars: [],
+      isShowModal: false,
     };
   },
   async created() {
@@ -47,8 +53,26 @@ export default {
       const y = this.getRandomNumber(0, maxY) + unit;
       return { x, y };
     },
+    onShowModal() {
+      this.isShowModal = true;
+    },
+    onCloseModal(close) {
+      this.isShowModal = close;
+    }
   },
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.home-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+
+  &__add-button {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+</style>
