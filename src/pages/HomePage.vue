@@ -21,16 +21,11 @@ export default {
   },
   async created() {
     const data = await this.fetchAvatars();
-    //! 데이터 저장시 랜덤 값을 넣을 때
-    // data.forEach(({ attributes: { position_x, position_y } }, i) => {
-    //   data[i].style = { top: `${position_x}px`, left: `${position_y}px` };
-    // });
+
     // TODO 임시: 뿌려줄 때 마다 랜덤 값 지정
     data.forEach((avatar) => {
-      // const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR);
       const unit = '%';
       const { x, y } = this.getRandomXY(SIZE.WRAPPER, SIZE.AVATAR, unit);
-
       /* eslint-disable */
       avatar.style = { top: y, left: x};
     });

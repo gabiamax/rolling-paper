@@ -1,6 +1,6 @@
 <template>
   <main class="avatars-wrapper">
-    <ul v-if="avatars.length" class="avatars-list">
+    <ul class="avatars-list">
       <li v-for="{ id, attributes: { name, img_src }, style } in avatars" :id="id" :key="id" :style="style">
         <router-link :to="'/comment/' + id" class="item-wrapper">
           <img :src="img_src || defaultImage" :alt="name" :title="name" />
@@ -8,7 +8,6 @@
         </router-link>
       </li>
     </ul>
-    <div v-else class="avatars-none">신규 입사자를 등록해주세요</div>
   </main>
 </template>
 
@@ -36,32 +35,7 @@ export default {
       // },
     };
   },
-  methods: {
-    //! 드래그앤 드롭
-    // // dragstart
-    // initAvatarXY(e) {
-    //   console.log('dragging');
-    //   console.log(e.clientX);
-    //   const avatar = e.currentTarget.getBoundingClientRect();
-    //   this.avatar.top = Math.floor(avatar.top);
-    //   this.avatar.left = Math.floor(avatar.left);
-    //   this.avatar.originX = Math.floor(avatar.clientX);
-    //   this.avatar.originY = Math.floor(avatar.clientY);
-    //   this.isMove = true;
-    // },
-    // // mousemove
-    // moveAvatarXY(e) {
-    //   if (!this.isMove) return;
-    //   const avatar = e.currentTarget;
-    //   avatar.style.left = `${e.clientX - this.avatar.originX + this.avatar.left}px`;
-    //   avatar.style.top = `${e.clientY - this.avatar.originY + this.avatar.top}px`;
-    //   console.log(`${e.clientX + this.avatar.left}px`);
-    // },
-    // // mouseup
-    // stopMoveEvent() {
-    //   this.avatar.isMove = false;
-    // },
-  },
+  methods: {},
 };
 </script>
 
