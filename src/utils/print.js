@@ -1,7 +1,7 @@
 const HTMLElementPrint = (id, width, height, title) => {
-  const tempWin = window.open('', 'PRINT', `width=${width},height=${height}`);
+  const printWindow = window.open('', 'PRINT', `width=${width},height=${height}`);
 
-  tempWin.document.write(`
+  printWindow.document.write(`
     <html>
       <head>
         <title>${title}</title>
@@ -20,12 +20,15 @@ const HTMLElementPrint = (id, width, height, title) => {
     </html>
   `);
 
-  tempWin.document.close();
-  tempWin.focus();
+  printWindow.document.close();
+  printWindow.focus();
 
-  tempWin.addEventListener('load', () => {
-    tempWin.print();
-    tempWin.close();
+  printWindow.addEventListener('load', () => {
+    printWindow.print();
+  });
+
+  printWindow.addEventListener('afterprint', () => {
+    printWindow.close();
   });
 };
 
