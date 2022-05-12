@@ -66,7 +66,8 @@ li {
 .avatars-list {
   background-size: cover;
   width: 80vw;
-  height: 60vh;
+  max-height: 60vh;
+  overflow: scroll;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto;
