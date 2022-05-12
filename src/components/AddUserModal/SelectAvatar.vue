@@ -12,7 +12,13 @@
     </div>
     <div class="select-avatar__radio">
       <label v-for="(type, index) in avatarTypes" :key="type" :for="`avatar-type-${type}`" @change="onChangeType(type)">
-        <input :id="`avatar-type-${type}`" type="radio" name="avatar-type" :checked="isFirstIndex(index)" />
+        <input
+          :id="`avatar-type-${type}`"
+          type="radio"
+          name="avatar-type"
+          :class="`select-avatar__radio--${type}`"
+          :checked="isFirstIndex(index)"
+        />
         <p>{{ type }}</p>
       </label>
     </div>
@@ -52,7 +58,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// TODO: radio 버튼 style
 .select-avatar {
   display: flex;
   align-items: center;
@@ -86,6 +91,42 @@ export default {
       align-items: center;
       flex-direction: column;
       width: 100%;
+
+      p {
+        margin-top: 4px;
+      }
+    }
+
+    input[type='radio'] {
+      display: grid;
+      place-content: center;
+      appearance: none;
+      margin: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+
+      &::before {
+        content: '';
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+      }
+
+      &:checked::before {
+        border: 3px solid #5f5b5b;
+      }
+    }
+
+    &--male {
+      background: #86cff8;
+    }
+    &--female {
+      background: #faa8a8;
+    }
+    &--custom {
+      background-image: url(@/assets/images/custom.jpg);
+      background-size: cover;
     }
   }
 }

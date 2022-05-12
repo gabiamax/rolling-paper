@@ -159,7 +159,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .add-user-modal {
   position: fixed;
@@ -207,6 +206,7 @@ export default {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
+      font-size: 1.2rem;
     }
 
     &--input {
