@@ -9,7 +9,7 @@
         <Introduction :isLoading="isLoading" :avatar="avatar" />
       </div>
       <div v-else>아바타가 없습니다.</div>
-      <CommentInput v-model="commentInput" @submit="addComment" />
+      <CommentInput v-model="commentInput" :errors="checkInputErrors" @submit="addComment" @input="checkInput" />
       <ul v-if="isCommentExist" class="comment-list">
         <CommentItem
           v-for="comment in comments"
@@ -46,6 +46,7 @@ export default {
       },
       comments: [],
       isLoading: true,
+      checkInputErrors: { author: '작성자를 입력해주세요', content: '댓글을 입력해주세요' },
     };
   },
   computed: {
@@ -64,6 +65,25 @@ export default {
     this.comments = comments;
   },
   methods: {
+    checkInput() {
+      const { author, content } = this.commentInput;
+
+      // author validation
+      if (author.trim().length === 0) {
+        this.checkInputErrors.author = '작성자를 입력해주세요';
+      } else if (author.length && author.length <= 10) {
+        this.checkInputErrors.author = '';
+      } else if (author.length > 10) {
+        this.checkInputErrors.author = '10자 이하로 입력해주세요';
+      }
+
+      // content validation
+      if (content.trim().length === 0) {
+        this.checkInputErrors.content = '댓글을 입력해주세요';
+      } else if (content.length) {
+        this.checkInputErrors.content = '';
+      }
+    },
     initCommentItem() {
       this.commentInput = { author: '', content: '' };
     },
