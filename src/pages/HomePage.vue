@@ -42,7 +42,6 @@ export default {
     async fetchAvatars() {
       const response = await this.$ajaxWithErrorHandler({
         func: avatarApi.getAvatars,
-        params: {},
         errorMessage: '등록된 사용자들을 불러올 수 없습니다',
       });
       this.isLoading = false;
