@@ -162,7 +162,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 .add-user-modal {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -174,8 +177,8 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 4% 20%;
-    padding: 2rem;
+    margin: auto 20%;
+    padding: 2rem 2rem 1.5rem 2rem;
     border-radius: 48px;
     background: #ffffff;
   }
@@ -203,7 +206,6 @@ export default {
     &--title {
       display: flex;
       justify-content: space-between;
-      height: inherit;
       margin-bottom: 1rem;
     }
 
@@ -216,7 +218,7 @@ export default {
     &--bottom {
       display: flex;
       justify-content: center;
-      margin-top: 0.5rem;
+      margin-top: 1.5rem;
     }
   }
 }

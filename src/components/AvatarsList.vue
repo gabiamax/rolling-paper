@@ -54,7 +54,7 @@ li {
 .avatars-wrapper {
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 9vh;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -93,10 +93,12 @@ li {
       align-items: center;
     }
     img {
-      width: 100%;
+      width: 167px;
+      height: 167px;
     }
 
     &:hover {
+      filter: drop-shadow(0px 0px 4px #5abaff);
       & .avatar-name {
         background-color: #ffffff;
       }
@@ -108,8 +110,7 @@ li {
   background-color: #ffffffa5;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  padding: 6px;
-  margin-top: 10px;
+  padding: 2px 11px;
   text-align: center;
 }
 </style>

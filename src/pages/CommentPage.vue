@@ -115,8 +115,6 @@ export default {
 }
 
 .comment {
-  background: url('../assets/images/background.JPG');
-  background-size: contain;
   &-wrapper {
     display: flex;
     flex-direction: column;

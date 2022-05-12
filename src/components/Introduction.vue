@@ -43,6 +43,8 @@ export default {
   .avatar {
     display: block;
     margin: 0px auto;
+    width: 167px;
+    height: 167px;
   }
 
   .wrapper {
@@ -55,6 +57,7 @@ export default {
   }
 
   .description {
+    word-break: keep-all;
     max-height: 100px;
     overflow-y: auto;
     padding: 12px 31px;
