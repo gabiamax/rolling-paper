@@ -4,7 +4,7 @@
     <Header />
     <AvatarsList :avatars="avatars" />
     <AddUserModal v-if="isShowModal" @close="onCloseModal" />
-    <button class="home-page__add-button" @click="onShowModal">
+    <button class="fab" @click="onShowModal">
       <PlusIcon />
     </button>
   </div>
@@ -45,7 +45,6 @@ export default {
     async fetchAvatars() {
       const response = await this.$ajaxWithErrorHandler({
         func: avatarApi.getAvatars,
-        params: {},
         errorMessage: '등록된 사용자들을 불러올 수 없습니다',
       });
       this.isLoading = false;
@@ -75,15 +74,4 @@ export default {
 </script>
 
 <style lang="scss">
-.home-page {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-
-  &__add-button {
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
-  }
-}
 </style>

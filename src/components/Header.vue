@@ -11,8 +11,9 @@
 <style lang="scss">
 .ribbon {
   max-width: 80vw;
-  height: 120px;
-  margin: 100px auto 0px;
+  height: fit-content;
+  margin: 9vh auto 0px;
+  padding: 1.3rem;
   position: relative;
   color: #fff;
   text-align: center;
