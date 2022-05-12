@@ -54,7 +54,6 @@ export default {
   &--delete {
     display: flex;
     cursor: pointer;
-    width: 50px;
     align-items: center;
     justify-content: center;
 

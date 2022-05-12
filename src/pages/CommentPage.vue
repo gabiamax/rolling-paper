@@ -3,24 +3,22 @@
     <button class="back" @click="$router.back()">
       <BackIcon />
     </button>
-    <div id="print" class="comment-wrapper">
-      <div v-if="isLoading">로딩중입니다</div>
-      <div v-else>
-        <div v-if="isAvatarExist">
-          <Introduction :isLoading="isLoading" :avatar="avatar" />
-        </div>
-        <div v-else>아바타가 없습니다.</div>
-        <CommentInput v-model="commentInput" @submit="addComment" />
-        <ul v-if="isCommentExist" class="comment-list">
-          <CommentItem
-            v-for="comment in comments"
-            :key="comment.id"
-            :comment="comment"
-            @delete="deleteComment(comment.id)"
-          />
-        </ul>
-        <div v-else>댓글이 없습니다.</div>
+    <div v-if="isLoading" class="comment-wrapper">로딩중입니다</div>
+    <div v-else id="print" class="comment-wrapper">
+      <div v-if="isAvatarExist">
+        <Introduction :isLoading="isLoading" :avatar="avatar" />
       </div>
+      <div v-else>아바타가 없습니다.</div>
+      <CommentInput v-model="commentInput" @submit="addComment" />
+      <ul v-if="isCommentExist" class="comment-list">
+        <CommentItem
+          v-for="comment in comments"
+          :key="comment.id"
+          :comment="comment"
+          @delete="deleteComment(comment.id)"
+        />
+      </ul>
+      <div v-else>댓글이 없습니다.</div>
     </div>
     <button class="fab no-print" @click="print"><PrintIcon /></button>
   </main>
