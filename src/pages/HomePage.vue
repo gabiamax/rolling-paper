@@ -40,8 +40,13 @@ export default {
   },
   methods: {
     async fetchAvatars() {
-      const avatars = await avatarApi.getAvatars()
-      return avatars.data.data;
+      const response = await this.$ajaxWithErrorHandler({
+        func: avatarApi.getAvatars,
+        errorMessage: '등록된 사용자들을 불러올 수 없습니다',
+      });
+      this.isLoading = false;
+      const avatars = response?.data.data ?? [];
+      return avatars;
     },
     getRandomNumber(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
